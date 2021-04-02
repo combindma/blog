@@ -47,7 +47,7 @@ class CreateBlogTable extends Migration
                     $table->foreignId('author_id')->nullable()->constrained('authors')->onDelete('cascade');
                     $table->string('title');
                     $table->string('slug')->unique();
-                    $table->string('language', 10)->default(\App\Enums\Languages::French);
+                    $table->string('language', 10)->default(\Combindma\Blog\Enums\Languages::French);
                     $table->text('content')->nullable();
                     $table->text('description')->nullable();
                     $table->string('reading_time')->nullable();
