@@ -11,7 +11,7 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::withTrashed()->with(['media'])->get();
-        return view('admin.posts.authors.index', compact('authors'));
+        return view('blog::posts.authors.index', compact('authors'));
     }
 
     public function store(AuthorRequest $request)
@@ -24,14 +24,14 @@ class AuthorController extends Controller
             $author->addImage($request->file('avatar'));
         }
 
-        flash('Ajout effectué avec succès');
-        return redirect(route('admin::authors.index'));
+        flash(__('Ajout effectué avec succès'));
+        return redirect(route('blog::authors.index'));
     }
 
 
     public function edit(Author $author)
     {
-        return view('admin.posts.authors.edit', compact('author'));
+        return view('blog::posts.authors.edit', compact('author'));
     }
 
     public function update(AuthorRequest $request, Author $author)
@@ -44,21 +44,21 @@ class AuthorController extends Controller
             $author->addImage($request->file('avatar'));
         }
 
-        flash('Enregistrement effectué avec succès');
+        flash(__('Enregistrement effectué avec succès'));
         return back();
     }
 
     public function destroy(Author $author)
     {
         $author->delete();
-        flash('Auteur supprimé avec succès');
+        flash(__('Auteur supprimé avec succès'));
         return back();
     }
 
     public function restore($id)
     {
         Author::withTrashed()->where('id',$id)->restore();
-        flash('Auteur restauré avec succès');
+        flash(__('Auteur restauré avec succès'));
         return back();
     }
 }

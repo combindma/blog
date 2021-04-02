@@ -61,6 +61,11 @@
             ]
         }
     },
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/combindma/dashui"
+    }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

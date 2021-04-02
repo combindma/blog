@@ -22,7 +22,7 @@ class PostController extends Controller
             ->with(['media', 'author', 'categories'])
             ->latest('id')
             ->paginate(10);
-        return view('admin.posts.index', compact('posts'));
+        return view('blog::posts.index', compact('posts'));
     }
 
     public function create()
@@ -33,7 +33,7 @@ class PostController extends Controller
         $tags = Tag::get(['id', 'name']);
         $post_tags= array();
         $post_categories = array();
-        return view('admin.posts.create', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
+        return view('blog::posts.create', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
     public function store(PostRequest $request)
@@ -54,8 +54,8 @@ class PostController extends Controller
             $post->addImage($request->file('post_image'));
         }
 
-        flash('Ajout effectué avec succès');
-        return redirect(route('admin::posts.edit', $post));
+        flash(__('Ajout effectué avec succès'));
+        return redirect(route('blog::posts.edit', $post));
     }
 
     public function edit(Post $post)
@@ -65,7 +65,7 @@ class PostController extends Controller
         $tags = Tag::get(['id', 'name']);
         $post_tags= $post->tagsIds();
         $post_categories = $post->categoriesIds();
-        return view('admin.posts.edit', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
+        return view('blog::posts.edit', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
     public function update(PostRequest $request, Post $post)
@@ -80,21 +80,21 @@ class PostController extends Controller
             $post->addImage($request->file('post_image'));
         }
 
-        flash('Enregistrement effectué avec succès');
+        flash(__('Enregistrement effectué avec succès'));
         return back();
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        flash('Article supprimé avec succès');
+        flash(__('Article supprimé avec succès'));
         return back();
     }
 
     public function restore($id)
     {
         Post::withTrashed()->where('id',$id)->restore();
-        flash('Article restauré avec succès');
+        flash(__('Article restauré avec succès'));
         return back();
     }
 
@@ -118,7 +118,7 @@ class PostController extends Controller
         return response()->json([
             'uploaded'=> false,
             'error' => [
-                'message' => 'impossible de télécharger cette image, veuillez réessayer'
+                'message' => __('impossible de télécharger cette image, veuillez réessayer')
             ]
         ]);
     }
