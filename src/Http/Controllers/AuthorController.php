@@ -25,7 +25,7 @@ class AuthorController extends Controller
         }
 
         flash(__('Ajout effectué avec succès'));
-        return redirect(route('blog::authors.index'));
+        return redirect(route('admin::authors.index'));
     }
 
 

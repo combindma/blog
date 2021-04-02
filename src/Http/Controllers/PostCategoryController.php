@@ -19,7 +19,7 @@ class PostCategoryController extends Controller
         PostCategory::create($request->validated());
 
         flash(__('Ajout effectué avec succès'));
-        return redirect(route('blog::post_categories.index'));
+        return redirect(route('admin::post_categories.index'));
     }
 
 

@@ -55,7 +55,7 @@ class PostController extends Controller
         }
 
         flash(__('Ajout effectué avec succès'));
-        return redirect(route('blog::posts.edit', $post));
+        return redirect(route('admin::posts.edit', $post));
     }
 
     public function edit(Post $post)
