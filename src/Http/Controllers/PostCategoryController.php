@@ -11,7 +11,7 @@ class PostCategoryController extends Controller
     public function index()
     {
         $categories = PostCategory::withTrashed()->oldest('order_column')->get();
-        return view('blog::posts.categories.index', compact('categories'));
+        return view('blog::admin.posts.categories.index', compact('categories'));
     }
 
     public function store(PostCategoryRequest $request)
@@ -25,7 +25,7 @@ class PostCategoryController extends Controller
 
     public function edit(PostCategory $post_category)
     {
-        return view('blog::posts.categories.edit', compact('post_category'));
+        return view('blog::admin.posts.categories.edit', compact('post_category'));
     }
 
     public function update(PostCategoryRequest $request, PostCategory $post_category)
