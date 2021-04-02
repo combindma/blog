@@ -19,7 +19,7 @@ class TestCase extends Orchestra
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Combindma\\Blog\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
-        //$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
     }
 
     protected function getPackageProviders($app)
@@ -52,10 +52,13 @@ class TestCase extends Orchestra
             'slugEngineOptions'  => [],
         ]);
 
-        Blog::routes();
-
         include_once __DIR__.'/../database/migrations/create_blog_table.php.stub';
         (new \CreateBlogTable())->up();
 
+    }
+
+    protected function defineRoutes($router)
+    {
+        Blog::routes();
     }
 }
