@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('dashui::admin.layouts.app')
 @section('title', 'Modifier Auteur')
 @section('content')
     <div class="bg-white border-l border-gray-200">

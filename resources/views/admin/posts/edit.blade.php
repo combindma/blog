@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('dashui::admin.layouts.app')
 @section('title', 'Modifier article')
 @push('head')
     <meta name="csrf-token" content="{{ csrf_token() }}">

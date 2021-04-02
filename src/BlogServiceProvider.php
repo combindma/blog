@@ -17,7 +17,6 @@ class BlogServiceProvider extends PackageServiceProvider
         $package
             ->name('blog')
             ->hasViews()
-            ->hasRoute('admin')
             ->hasMigration('create_blog_table');
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('dashui::admin.layouts.app')
 @section('title', 'Modifier tag')
 @section('content')
     <div class="max-w-4xl mx-auto px-4 py-10 sm:px-6 lg:px-8">

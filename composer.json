@@ -18,6 +18,7 @@
     "require": {
         "php": "^8.0",
         "bensampo/laravel-enum": "^3.3",
+        "combindma/dashui": "dev-master",
         "combindma/flash": "^1.0",
         "cviebrock/eloquent-sluggable": "^8.0",
         "elegantweb/sanitizer": "^1.0",
@@ -61,10 +62,11 @@
             ]
         }
     },
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/combindma/dashui"
-    }
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/combindma/dashui"
+        }
     ],
     "minimum-stability": "dev",
     "prefer-stable": true
