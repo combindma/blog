@@ -2,18 +2,17 @@
 
 namespace Combindma\Blog\Database\Factories;
 
+use Combindma\Blog\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-class ModelFactory extends Factory
+class TagFactory extends Factory
 {
-    protected $model = YourModel::class;
+    protected $model = Tag::class;
 
     public function definition()
     {
         return [
-
+            'name' => $this->faker->words(2, true)
         ];
     }
 }
-*/

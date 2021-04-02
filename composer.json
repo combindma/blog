@@ -17,8 +17,15 @@
     ],
     "require": {
         "php": "^8.0",
+        "bensampo/laravel-enum": "^3.3",
+        "combindma/flash": "^1.0",
+        "cviebrock/eloquent-sluggable": "^8.0",
+        "elegantweb/sanitizer": "^1.0",
+        "illuminate/contracts": "^8.0",
+        "spatie/eloquent-sortable": "^4.0",
+        "spatie/laravel-medialibrary": "^9.5",
         "spatie/laravel-package-tools": "^1.4.3",
-        "illuminate/contracts": "^8.0"
+        "tucker-eric/eloquentfilter": "^2.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
@@ -51,10 +58,7 @@
         "laravel": {
             "providers": [
                 "Combindma\\Blog\\BlogServiceProvider"
-            ],
-            "aliases": {
-                "Blog": "Combindma\\Blog\\BlogFacade"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

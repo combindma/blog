@@ -4,7 +4,6 @@ namespace Combindma\Blog;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Combindma\Blog\Commands\BlogCommand;
 
 class BlogServiceProvider extends PackageServiceProvider
 {
@@ -17,9 +16,8 @@ class BlogServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('blog')
-            ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_blog_table')
-            ->hasCommand(BlogCommand::class);
+            ->hasRoute('admin')
+            ->hasMigration('create_blog_table');
     }
 }

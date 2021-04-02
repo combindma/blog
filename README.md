@@ -20,6 +20,18 @@ php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag
 php artisan migrate
 ```
 
+You can publish views with:
+
+```bash
+php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-views"
+```
+
+You can publish translations with:
+
+```bash
+php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-translations"
+```
+
 ## Usage
 
 
