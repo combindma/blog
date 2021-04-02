@@ -11,7 +11,7 @@ class CreateBlogTable extends Migration
         Schema::create('authors', function (Blueprint $table) {
                     $table->id();
                     $table->string('name');
-                    $table->string('slug');
+                    $table->string('slug')->nullable()->unique();
                     $table->string('job')->nullable();
                     $table->text('description')->nullable();
                     $table->json('meta')->nullable();
@@ -23,7 +23,7 @@ class CreateBlogTable extends Migration
                 Schema::create('post_categories', function (Blueprint $table) {
                     $table->id();
                     $table->string('name');
-                    $table->string('slug');
+                    $table->string('slug')->nullable()->unique();
                     $table->text('description')->nullable();
                     $table->boolean('visible_in_menu')->default(1);
                     $table->boolean('browsable')->default(1);
@@ -36,7 +36,7 @@ class CreateBlogTable extends Migration
                 Schema::create('tags', function (Blueprint $table) {
                     $table->id();
                     $table->string('name');
-                    $table->string('slug');
+                    $table->string('slug')->nullable()->unique();
                     $table->unsignedInteger('order_column')->nullable();
                     $table->softDeletes();
                     $table->timestamps();

@@ -5,11 +5,13 @@ namespace Combindma\Blog\Tests\Features;
 use Combindma\Blog\Models\PostCategory;
 use Combindma\Blog\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 class PostCategoryTest extends TestCase
 {
-    use DatabaseTransactions;
+    //use DatabaseTransactions;
+    use RefreshDatabase;
 
     protected function setData($data = [])
     {
@@ -22,8 +24,8 @@ class PostCategoryTest extends TestCase
     public function admin_can_create_post_category()
     {
         $data =  $this->setData();
-        $response = $this->from(route('admin::post_categories.index'))->post(route('admin::post_categories.store'), $data);
-        $response->assertRedirect(route('admin::post_categories.index'));
+        $response = $this->from(route('post_categories.index'))->post(route('post_categories.store'), $data);
+        $response->assertRedirect(route('post_categories.index'));
         $this->assertCount(1, $categories = PostCategory::all());
         $category = $categories->first();
         $this->assertEquals($data['name'], $category->name);
@@ -37,8 +39,8 @@ class PostCategoryTest extends TestCase
             'slug' => strtolower($this->faker->slug),
             'order_column' => $this->faker->numberBetween(1, 10)
         ]);
-        $response = $this->from(route('admin::post_categories.edit', $category))->put(route('admin::post_categories.update', $category), $data);
-        $response->assertRedirect(route('admin::post_categories.edit', $category));
+        $response = $this->from(route('post_categories.edit', $category))->put(route('post_categories.update', $category), $data);
+        $response->assertRedirect(route('post_categories.edit', $category));
         $category->refresh();
         $this->assertEquals($data['name'], $category->name);
         $this->assertEquals($data['slug'], $category->slug);
@@ -49,8 +51,8 @@ class PostCategoryTest extends TestCase
     public function admin_can_delete_post_category()
     {
         $category = PostCategory::factory()->create();
-        $response = $this->from(route('admin::post_categories.index'))->delete(route('admin::post_categories.destroy', $category));
-        $response->assertRedirect(route('admin::post_categories.index'));
+        $response = $this->from(route('post_categories.index'))->delete(route('post_categories.destroy', $category));
+        $response->assertRedirect(route('post_categories.index'));
         $this->assertCount(0, $categories = PostCategory::all());
     }
 
@@ -60,8 +62,8 @@ class PostCategoryTest extends TestCase
         $category = PostCategory::factory()->create();
         $category->delete();
         $this->assertCount(0, PostCategory::all());
-        $response = $this->from(route('admin::post_categories.index'))->post(route('admin::post_categories.restore', $category->id));
-        $response->assertRedirect(route('admin::post_categories.index'));
+        $response = $this->from(route('post_categories.index'))->post(route('post_categories.restore', $category->id));
+        $response->assertRedirect(route('post_categories.index'));
         $this->assertCount(1, PostCategory::all());
     }
 
@@ -74,8 +76,8 @@ class PostCategoryTest extends TestCase
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $this->from(route('admin::post_categories.index'))->post(route('admin::post_categories.store'), $data);
-        $response->assertRedirect(route('admin::post_categories.index'));
+        $response = $this->from(route('post_categories.index'))->post(route('post_categories.store'), $data);
+        $response->assertRedirect(route('post_categories.index'));
         $response->assertSessionHasErrors($formInput);
         $this->assertCount(0, PostCategory::all());
     }
