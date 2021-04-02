@@ -2,6 +2,7 @@
 
 namespace Combindma\Blog\Tests;
 
+use Combindma\Blog\Blog;
 use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -51,6 +52,7 @@ class TestCase extends Orchestra
             'slugEngineOptions'  => [],
         ]);
 
+        Blog::routes();
 
         include_once __DIR__.'/../database/migrations/create_blog_table.php.stub';
         (new \CreateBlogTable())->up();

@@ -46,8 +46,8 @@ class AuthorTest extends TestCase
         $data =  $this->setData([
             'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
         ]);
-        $response = $this->from(route('authors.index'))->post(route('authors.store'), $data);
-        $response->assertRedirect(route('authors.index'));
+        $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.store'), $data);
+        $response->assertRedirect(route('admin::authors.index'));
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $authors = Author::all());
         $author = $authors->first();
@@ -71,8 +71,8 @@ class AuthorTest extends TestCase
             'order_column' => $this->faker->numberBetween(1, 10),
             'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
         ]);
-        $response = $this->from(route('authors.edit', $author))->put(route('authors.update', $author), $data);
-        $response->assertRedirect(route('authors.edit', $author));
+        $response = $this->from(route('admin::authors.edit', $author))->put(route('admin::authors.update', $author), $data);
+        $response->assertRedirect(route('admin::authors.edit', $author));
         $response->assertSessionHasNoErrors();
         $author->refresh();
         $this->assertEquals($data['name'], $author->name);
@@ -91,8 +91,8 @@ class AuthorTest extends TestCase
     public function admin_can_delete_an_author()
     {
         $author = Author::factory()->create();
-        $response = $this->from(route('authors.index'))->delete(route('authors.destroy', $author));
-        $response->assertRedirect(route('authors.index'));
+        $response = $this->from(route('admin::authors.index'))->delete(route('admin::authors.destroy', $author));
+        $response->assertRedirect(route('admin::authors.index'));
         $this->assertCount(0, Author::all());
     }
 
@@ -102,8 +102,8 @@ class AuthorTest extends TestCase
         $author = Author::factory()->create();
         $author->delete();
         $this->assertCount(0, Author::all());
-        $response = $this->from(route('authors.index'))->post(route('authors.restore', $author->id));
-        $response->assertRedirect(route('authors.index'));
+        $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.restore', $author->id));
+        $response->assertRedirect(route('admin::authors.index'));
         $this->assertCount(1, Author::all());
     }
 
@@ -116,8 +116,8 @@ class AuthorTest extends TestCase
         $data =  $this->setData([
             $formInput => $formInputValue,
         ]);
-        $response = $response = $this->from(route('authors.index'))->post(route('authors.store'), $data);
-        $response->assertRedirect(route('authors.index'));
+        $response = $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.store'), $data);
+        $response->assertRedirect(route('admin::authors.index'));
         $response->assertSessionHasErrors($formInput);
         $this->assertCount(0, Author::all());
     }
@@ -132,8 +132,8 @@ class AuthorTest extends TestCase
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $this->from(route('authors.edit' , $author))->put(route('authors.update', $author), $data);
-        $response->assertRedirect(route('authors.edit' , $author));
+        $response = $this->from(route('admin::authors.edit' , $author))->put(route('admin::authors.update', $author), $data);
+        $response->assertRedirect(route('admin::authors.edit' , $author));
         $response->assertSessionHasErrors($formInput);
     }
 

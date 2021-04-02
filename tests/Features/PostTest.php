@@ -58,11 +58,11 @@ class PostTest extends TestCase
         $data =  $this->setData([
             'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
         ]);
-        $response = $this->from(route('posts.create'))->post(route('posts.store'), $data);
+        $response = $this->from(route('admin::posts.create'))->post(route('admin::posts.store'), $data);
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $posts = Post::all());
         $post = $posts->first();
-        $response->assertRedirect(route('posts.edit', $post));
+        $response->assertRedirect(route('admin::posts.edit', $post));
         $this->assertEquals($data['author_id'], $post->author_id);
         $this->assertEquals($data['title'], $post->title);
         $this->assertEquals($data['language'], $post->language);
@@ -85,8 +85,8 @@ class PostTest extends TestCase
         $data =  $this->setData([
             'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
         ]);
-        $response = $this->from(route('posts.edit', $post))->put(route('posts.update', $post), $data);
-        $response->assertRedirect(route('posts.edit', $post));
+        $response = $this->from(route('admin::posts.edit', $post))->put(route('admin::posts.update', $post), $data);
+        $response->assertRedirect(route('admin::posts.edit', $post));
         $response->assertSessionHasNoErrors();
         $post->refresh();
         $this->assertEquals($data['author_id'], $post->author_id);
@@ -108,8 +108,8 @@ class PostTest extends TestCase
     public function admin_can_delete_a_post()
     {
         $post = Post::factory()->create();
-        $response = $this->from(route('posts.index'))->delete(route('posts.destroy', $post));
-        $response->assertRedirect(route('posts.index'));
+        $response = $this->from(route('admin::posts.index'))->delete(route('admin::posts.destroy', $post));
+        $response->assertRedirect(route('admin::posts.index'));
         $this->assertCount(0, Post::all());
     }
 
@@ -119,8 +119,8 @@ class PostTest extends TestCase
         $post = Post::factory()->create();
         $post->delete();
         $this->assertCount(0, Post::all());
-        $response = $this->from(route('posts.index'))->post(route('posts.restore', $post->id));
-        $response->assertRedirect(route('posts.index'));
+        $response = $this->from(route('admin::posts.index'))->post(route('admin::posts.restore', $post->id));
+        $response->assertRedirect(route('admin::posts.index'));
         $this->assertCount(1, Post::all());
     }
 
@@ -133,8 +133,8 @@ class PostTest extends TestCase
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $response = $this->from(route('posts.create'))->post(route('posts.store'), $data);
-        $response->assertRedirect(route('posts.create'));
+        $response = $response = $this->from(route('admin::posts.create'))->post(route('admin::posts.store'), $data);
+        $response->assertRedirect(route('admin::posts.create'));
         $response->assertSessionHasErrors($formInput);
         $this->assertCount(0, Post::all());
     }
@@ -149,8 +149,8 @@ class PostTest extends TestCase
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $this->from(route('posts.edit', $post))->put(route('posts.update', $post), $data);
-        $response->assertRedirect(route('posts.edit', $post));
+        $response = $this->from(route('admin::posts.edit', $post))->put(route('admin::posts.update', $post), $data);
+        $response->assertRedirect(route('admin::posts.edit', $post));
         $response->assertSessionHasErrors($formInput);
     }
 
