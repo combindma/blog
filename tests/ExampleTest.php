@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Combindma\Blog\Tests;
 
 class ExampleTest extends TestCase
 {
