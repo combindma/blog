@@ -3,7 +3,7 @@
 @section('content')
     <div class="max-w-4xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div class="shadow sm:rounded-md">
-            <form action="{{ route('admin::tags.update', $tag) }}" method="POST">
+            <form action="{{ route('blog::tags.update', $tag) }}" method="POST">
                 <div class="bg-white py-6 px-4 sm:p-6">
                     <div class="mb-4">
                         <h1 class="text-lg leading-6 font-medium text-gray-900">Modifier nom tag</h1>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <a class="btn-subtle" href="{{ route('admin::tags.index') }}">Retour</a>
+                    <a class="btn-subtle" href="{{ route('blog::tags.index') }}">Retour</a>
                     <button type="submit" class="ml-2 btn">
                         Enregistrer
                     </button>

@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-6 relative flex-1 px-4 py-6 sm:px-6">
-                                        <form id="form-action" action="{{ route('admin::tags.store') }}" method="POST">
+                                        <form id="form-action" action="{{ route('blog::tags.store') }}" method="POST">
                                             @csrf
                                             <label class="form-label">Nom</label>
                                             <input type="text" name="name" value="{{ old('name') }}" class="form-control" required>
@@ -133,12 +133,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex justify-end space-x-3">
                                             @if (!$tag->deleted_at)
-                                                <a href="{{ route('admin::tags.edit', $tag) }}" class="text-primary-600 hover:text-primary-900">
+                                                <a href="{{ route('blog::tags.edit', $tag) }}" class="text-primary-600 hover:text-primary-900">
                                                     Modifier
                                                 </a>
                                             @endif
                                             @if ($tag->deleted_at)
-                                                <form action="{{ route('admin::tags.restore', $tag->id) }}" method="POST">
+                                                <form action="{{ route('blog::tags.restore', $tag->id) }}" method="POST">
                                                     @csrf
                                                     <a href="javascript:" class="text-yellow-600 hover:text-yellow-900"
                                                        onclick='confirm("Etes-vous sûr de vouloir restaurer ce tag ?") && parentNode.submit();'>
@@ -146,7 +146,7 @@
                                                     </a>
                                                 </form>
                                             @else
-                                                <form action="{{ route('admin::tags.destroy', $tag) }}" method="POST">
+                                                <form action="{{ route('blog::tags.destroy', $tag) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <a href="javascript:" class="text-red-600 hover:text-red-900" onclick='confirm("Etes-vous sûr de vouloir supprimer ce tag ?") && parentNode.submit();'>

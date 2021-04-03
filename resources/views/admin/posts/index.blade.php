@@ -10,7 +10,7 @@
                     </h1>
                 </div>
                 <div class="flex ml-4">
-                    <a href="{{ route('admin::posts.create') }}" class="btn">
+                    <a href="{{ route('blog::posts.create') }}" class="btn">
                         Ajouter un article
                     </a>
                 </div>

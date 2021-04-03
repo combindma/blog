@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-6 relative flex-1 px-4 py-6 sm:px-6">
-                                        <form id="form-action" action="{{ route('admin::post_categories.store') }}" method="POST">
+                                        <form id="form-action" action="{{ route('blog::post_categories.store') }}" method="POST">
                                             @csrf
                                             <div class="mb-6">
                                                 <label class="form-label">Nom catégorie</label>
@@ -157,12 +157,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex justify-end space-x-3">
                                             @if (!$category->deleted_at)
-                                                <a href="{{ route('admin::post_categories.edit', $category) }}" class="text-primary-600 hover:text-primary-900">
+                                                <a href="{{ route('blog::post_categories.edit', $category) }}" class="text-primary-600 hover:text-primary-900">
                                                     Modifier
                                                 </a>
                                             @endif
                                             @if ($category->deleted_at)
-                                                <form action="{{ route('admin::post_categories.restore', $category->id) }}" method="POST">
+                                                <form action="{{ route('blog::post_categories.restore', $category->id) }}" method="POST">
                                                     @csrf
                                                     <a href="javascript:" class="text-yellow-600 hover:text-yellow-900"
                                                        onclick='confirm("Etes-vous sûr de vouloir restaurer cette catégorie ?") && parentNode.submit();'>
@@ -170,7 +170,7 @@
                                                     </a>
                                                 </form>
                                             @else
-                                                <form action="{{ route('admin::post_categories.destroy', $category) }}" method="POST">
+                                                <form action="{{ route('blog::post_categories.destroy', $category) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <a href="javascript:" class="text-red-600 hover:text-red-900" onclick='confirm("Etes-vous sûr de vouloir supprimer cette catégorie ?") && parentNode.submit();'>

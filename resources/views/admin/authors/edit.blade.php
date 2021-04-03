@@ -19,12 +19,12 @@
                     </div>
                     @include('admin.components.alert')
                 </div>
-                <form class="max-w-3xl mx-auto space-y-6 divide-y divide-gray-200" id="form-action" action="{{ route('admin::authors.update', $author) }}" method="POST" enctype="multipart/form-data">
+                <form class="max-w-3xl mx-auto space-y-6 divide-y divide-gray-200" id="form-action" action="{{ route('blog::authors.update', $author) }}" method="POST" enctype="multipart/form-data">
                     @include('admin.posts.authors.form', ['createForm' => false])
                     @csrf
                     @method('PUT')
                     <div class="pt-5 flex justify-end">
-                        <a href="{{ route('admin::authors.index') }}" class="btn-subtle">Retour</a>
+                        <a href="{{ route('blog::authors.index') }}" class="btn-subtle">Retour</a>
                         <button type="submit" class="btn ml-3">
                             Enregistrer
                         </button>

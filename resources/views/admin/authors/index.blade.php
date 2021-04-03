@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-6 relative flex-1 px-4 py-6 sm:px-6">
-                                        <form id="form-action" action="{{ route('admin::authors.store') }}" method="POST" enctype="multipart/form-data">
+                                        <form id="form-action" action="{{ route('blog::authors.store') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <div class="space-y-6 divide-y divide-gray-200">
                                                 @include('admin.posts.authors.form', ['createForm' => true, 'author' => new \App\Models\Author()])
@@ -97,7 +97,7 @@
                 <ul class="divide-y divide-gray-200">
                     @foreach ($authors as $author)
                     <li>
-                        <a href="{{ route('admin::authors.edit', $author) }}" class="block hover:bg-gray-50">
+                        <a href="{{ route('blog::authors.edit', $author) }}" class="block hover:bg-gray-50">
                             <div class="flex items-center px-4 py-4 sm:px-6">
                                 <div class="min-w-0 flex-1 flex items-center">
                                     <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">

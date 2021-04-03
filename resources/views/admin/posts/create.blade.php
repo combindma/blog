@@ -11,10 +11,10 @@
 @endpush
 @section('content')
     <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-        <form id="form-action" action="{{ route('admin::posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="form-action" action="{{ route('blog::posts.store') }}" method="POST" enctype="multipart/form-data">
             <div class="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
                 <div class="flex items-center">
-                    <a href="{{ route('admin::posts.index') }}" class="inline-flex items-center p-1.5 border border-gray-300 shadow-sm text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200">
+                    <a href="{{ route('blog::posts.index') }}" class="inline-flex items-center p-1.5 border border-gray-300 shadow-sm text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
@@ -24,7 +24,7 @@
                     </h1>
                 </div>
                 <div class="mt-3 flex sm:mt-0 sm:ml-4">
-                    <a href="{{ route('admin::posts.index') }}" class="btn-subtle">
+                    <a href="{{ route('blog::posts.index') }}" class="btn-subtle">
                         Annuler
                     </a>
                     <button type="submit" class="btn ml-3">
@@ -45,7 +45,7 @@
         ClassicEditor.create(document.querySelector('#editor'), {
             simpleUpload: {
                 uploadUrl: {
-                    url: "{{ route('admin::posts.upload') }}"
+                    url: "{{ route('blog::posts.upload') }}"
                 }
             },
             heading: {
