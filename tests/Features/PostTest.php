@@ -8,15 +8,11 @@ use Combindma\Blog\Models\Post;
 use Combindma\Blog\Models\PostCategory;
 use Combindma\Blog\Models\Tag;
 use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
 
 class PostTest extends TestCase
 {
-    //use DatabaseTransactions;
     use RefreshDatabase;
 
     protected function setData($data = [])
@@ -42,22 +38,10 @@ class PostTest extends TestCase
         ], $data);
     }
 
-    public function setStorage()
-    {
-        Storage::fake('images');
-        config()->set('filesystems.disks.images', [
-            'driver' => 'local',
-            'root' => Storage::disk('images')->getAdapter()->getPathPrefix(),
-        ]);
-    }
-
     /** @test */
     public function user_can_create_a_post()
     {
-        $this->setStorage();
-        $data =  $this->setData([
-            'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
-        ]);
+        $data =  $this->setData();
         $response = $this->from(route('blog::posts.create'))->post(route('blog::posts.store'), $data);
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $posts = Post::all());
@@ -74,17 +58,13 @@ class PostTest extends TestCase
         $this->assertEquals($data['is_featured'], $post->is_featured);
         $this->assertEquals($data['meta_title'], $post->meta_title);
         $this->assertEquals($data['meta_description'], $post->meta_description);
-        $this->assertFileExists($post->getFirstMedia('images')->getPath());
     }
 
     /** @test */
     public function user_can_update_a_post()
     {
-        $this->setStorage();
         $post = Post::factory()->create();
-        $data =  $this->setData([
-            'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
-        ]);
+        $data =  $this->setData();
         $response = $this->from(route('blog::posts.edit', $post))->put(route('blog::posts.update', $post), $data);
         $response->assertRedirect(route('blog::posts.edit', $post));
         $response->assertSessionHasNoErrors();
@@ -101,7 +81,6 @@ class PostTest extends TestCase
         $this->assertEquals($data['is_featured'], $post->is_featured);
         $this->assertEquals($data['meta_title'], $post->meta_title);
         $this->assertEquals($data['meta_description'], $post->meta_description);
-        $this->assertFileExists($post->getFirstMedia('images')->getPath());
     }
 
     /** @test */

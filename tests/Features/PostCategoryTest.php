@@ -4,14 +4,12 @@ namespace Combindma\Blog\Tests\Features;
 
 use Combindma\Blog\Models\PostCategory;
 use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 class PostCategoryTest extends TestCase
 {
-    use DatabaseTransactions;
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     protected function setData($data = [])
     {

@@ -9,13 +9,13 @@ use Combindma\Blog\Models\Author;
 use Combindma\Blog\Models\Post;
 use Combindma\Blog\Models\PostCategory;
 use Combindma\Blog\Models\Tag;
-use Combindma\Blog\Traits\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    use UploadTrait;
-
     public function index(Request $request)
     {
         $posts = Post::filter($request->all(), PostFilter::class)
@@ -96,6 +96,13 @@ class PostController extends Controller
         Post::withTrashed()->where('id',$id)->restore();
         flash(__('Article restauré avec succès'));
         return back();
+    }
+
+    public function uploadOne(UploadedFile $uploadedFile, $filename = null, $disk = 'uploads', $folder = null)
+    {
+        $name = !is_null($filename) ? $filename : Str::random(25).'.'.$uploadedFile->getClientOriginalExtension();
+        $file = $uploadedFile->storeAs($folder, $name, $disk);
+        return Storage::disk($disk)->url($file);
     }
 
     public function upload(Request $request)

@@ -50,7 +50,7 @@
     "scripts": {
         "psalm": "vendor/bin/psalm",
         "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
-        "test-f": "vendor/bin/phpunit --filter",
+        "test-filter": "vendor/bin/phpunit --parallel --no-coverage --filter",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {

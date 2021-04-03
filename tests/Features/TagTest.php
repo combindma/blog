@@ -4,13 +4,11 @@ namespace Combindma\Blog\Tests\Features;
 
 use Combindma\Blog\Models\Tag;
 use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TagTest extends TestCase
 {
-    use DatabaseTransactions;
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     protected function setData($data = [])
     {

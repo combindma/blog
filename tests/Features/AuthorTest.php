@@ -5,14 +5,10 @@ namespace Combindma\Blog\Tests\Features;
 
 use Combindma\Blog\Models\Author;
 use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 
 class AuthorTest extends TestCase
 {
-    //use DatabaseTransactions;
     use RefreshDatabase;
 
     protected function setData($data = [])
@@ -30,22 +26,10 @@ class AuthorTest extends TestCase
         ], $data);
     }
 
-    public function setStorage(){
-        Storage::fake('images');
-        config()->set('filesystems.disks.images', [
-            'driver' => 'local',
-            'root' => Storage::disk('images')->getAdapter()->getPathPrefix(),
-        ]);
-    }
-
     /** @test */
     public function user_can_create_an_author()
     {
-        $this->setStorage();
-
-        $data =  $this->setData([
-            'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
-        ]);
+        $data =  $this->setData();
         $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.store'), $data);
         $response->assertRedirect(route('blog::authors.index'));
         $response->assertSessionHasNoErrors();
@@ -58,18 +42,15 @@ class AuthorTest extends TestCase
         $this->assertEquals($data['meta']['twitter'], $author->meta['twitter']);
         $this->assertEquals($data['meta']['instagram'], $author->meta['instagram']);
         $this->assertEquals($data['meta']['linkedin'], $author->meta['linkedin']);
-        $this->assertFileExists($author->getFirstMedia('images')->getPath());
     }
 
     /** @test */
     public function user_can_update_an_author()
     {
-        $this->setStorage();
         $author = Author::factory()->create();
         $data =  $this->setData([
             'slug' => strtolower($this->faker->slug),
             'order_column' => $this->faker->numberBetween(1, 10),
-            'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
         ]);
         $response = $this->from(route('blog::authors.edit', $author))->put(route('blog::authors.update', $author), $data);
         $response->assertRedirect(route('blog::authors.edit', $author));
@@ -84,7 +65,6 @@ class AuthorTest extends TestCase
         $this->assertEquals($data['meta']['twitter'], $author->meta['twitter']);
         $this->assertEquals($data['meta']['instagram'], $author->meta['instagram']);
         $this->assertEquals($data['meta']['linkedin'], $author->meta['linkedin']);
-        $this->assertFileExists($author->getFirstMedia('images')->getPath());
     }
 
     /** @test */
