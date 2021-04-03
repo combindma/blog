@@ -20,7 +20,7 @@
                     @include('dashui::admin.components.alert')
                 </div>
                 <form class="max-w-3xl mx-auto space-y-6 divide-y divide-gray-200" id="form-action" action="{{ route('blog::authors.update', $author) }}" method="POST" enctype="multipart/form-data">
-                    @include('blog::admin.posts.authors.form', ['createForm' => false])
+                    @include('blog::admin.authors.form', ['createForm' => false])
                     @csrf
                     @method('PUT')
                     <div class="pt-5 flex justify-end">

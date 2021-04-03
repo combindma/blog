@@ -55,7 +55,7 @@
                                         <form id="form-action" action="{{ route('blog::authors.store') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <div class="space-y-6 divide-y divide-gray-200">
-                                                @include('blog::admin.posts.authors.form', ['createForm' => true, 'author' => new \Combindma\Blog\Models\Author()])
+                                                @include('blog::admin.authors.form', ['createForm' => true, 'author' => new \Combindma\Blog\Models\Author()])
                                             </div>
                                         </form>
                                     </div>
