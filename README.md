@@ -13,11 +13,17 @@ You can install the package via composer:
 composer require combindma/blog
 ```
 
-You can publish and run the migrations with:
+(Important)You have to publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-migrations"
 php artisan migrate
+```
+
+(Important)You have to publish assets with:
+
+```bash
+php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-assets"
 ```
 
 You can publish views with:
@@ -30,12 +36,6 @@ You can publish translations with:
 
 ```bash
 php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-translations"
-```
-
-You can publish assets with:
-
-```bash
-php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-assets"
 ```
 
 ## Usage
