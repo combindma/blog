@@ -18,7 +18,7 @@ class TagController extends Controller
     {
         Tag::create($request->validated());
         flash(__('Ajout effectué avec succès'));
-        return redirect(route('admin::tags.index'));
+        return redirect(route('blog::tags.index'));
     }
 
     public function edit(Tag $tag)

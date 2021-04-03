@@ -17,9 +17,8 @@ class PostCategoryController extends Controller
     public function store(PostCategoryRequest $request)
     {
         PostCategory::create($request->validated());
-
         flash(__('Ajout effectué avec succès'));
-        return redirect(route('admin::post_categories.index'));
+        return redirect(route('blog::post_categories.index'));
     }
 
 
@@ -31,7 +30,6 @@ class PostCategoryController extends Controller
     public function update(PostCategoryRequest $request, PostCategory $post_category)
     {
         $post_category->update($request->validated());
-
         flash(__('Enregistrement effectué avec succès'));
         return back();
     }
@@ -39,7 +37,6 @@ class PostCategoryController extends Controller
     public function destroy(PostCategory $post_category)
     {
         $post_category->delete();
-
         flash(__('Catégorie supprimée avec succès'));
         return back();
     }

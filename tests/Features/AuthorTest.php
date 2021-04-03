@@ -39,15 +39,15 @@ class AuthorTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_create_an_author()
+    public function user_can_create_an_author()
     {
         $this->setStorage();
 
         $data =  $this->setData([
             'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
         ]);
-        $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.store'), $data);
-        $response->assertRedirect(route('admin::authors.index'));
+        $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.store'), $data);
+        $response->assertRedirect(route('blog::authors.index'));
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $authors = Author::all());
         $author = $authors->first();
@@ -62,7 +62,7 @@ class AuthorTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_update_an_author()
+    public function user_can_update_an_author()
     {
         $this->setStorage();
         $author = Author::factory()->create();
@@ -71,8 +71,8 @@ class AuthorTest extends TestCase
             'order_column' => $this->faker->numberBetween(1, 10),
             'avatar' => UploadedFile::fake()->image('image.jpg', 1000, 1000),
         ]);
-        $response = $this->from(route('admin::authors.edit', $author))->put(route('admin::authors.update', $author), $data);
-        $response->assertRedirect(route('admin::authors.edit', $author));
+        $response = $this->from(route('blog::authors.edit', $author))->put(route('blog::authors.update', $author), $data);
+        $response->assertRedirect(route('blog::authors.edit', $author));
         $response->assertSessionHasNoErrors();
         $author->refresh();
         $this->assertEquals($data['name'], $author->name);
@@ -88,22 +88,22 @@ class AuthorTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_delete_an_author()
+    public function user_can_delete_an_author()
     {
         $author = Author::factory()->create();
-        $response = $this->from(route('admin::authors.index'))->delete(route('admin::authors.destroy', $author));
-        $response->assertRedirect(route('admin::authors.index'));
+        $response = $this->from(route('blog::authors.index'))->delete(route('blog::authors.destroy', $author));
+        $response->assertRedirect(route('blog::authors.index'));
         $this->assertCount(0, Author::all());
     }
 
     /** @test */
-    public function admin_can_restore_an_author()
+    public function user_can_restore_an_author()
     {
         $author = Author::factory()->create();
         $author->delete();
         $this->assertCount(0, Author::all());
-        $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.restore', $author->id));
-        $response->assertRedirect(route('admin::authors.index'));
+        $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.restore', $author->id));
+        $response->assertRedirect(route('blog::authors.index'));
         $this->assertCount(1, Author::all());
     }
 
@@ -111,13 +111,13 @@ class AuthorTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_create_an_author_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_create_an_author_with_invalid_data($formInput, $formInputValue)
     {
         $data =  $this->setData([
             $formInput => $formInputValue,
         ]);
-        $response = $response = $this->from(route('admin::authors.index'))->post(route('admin::authors.store'), $data);
-        $response->assertRedirect(route('admin::authors.index'));
+        $response = $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.store'), $data);
+        $response->assertRedirect(route('blog::authors.index'));
         $response->assertSessionHasErrors($formInput);
         $this->assertCount(0, Author::all());
     }
@@ -126,14 +126,14 @@ class AuthorTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_update_an_author_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_update_an_author_with_invalid_data($formInput, $formInputValue)
     {
         $author = Author::factory()->create();
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $this->from(route('admin::authors.edit' , $author))->put(route('admin::authors.update', $author), $data);
-        $response->assertRedirect(route('admin::authors.edit' , $author));
+        $response = $this->from(route('blog::authors.edit' , $author))->put(route('blog::authors.update', $author), $data);
+        $response->assertRedirect(route('blog::authors.edit' , $author));
         $response->assertSessionHasErrors($formInput);
     }
 

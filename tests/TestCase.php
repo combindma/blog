@@ -3,8 +3,10 @@
 namespace Combindma\Blog\Tests;
 
 use Combindma\Blog\Blog;
+use Elegant\Sanitizer\Laravel\SanitizerServiceProvider;
 use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Combindma\Blog\BlogServiceProvider;
 
@@ -26,17 +28,24 @@ class TestCase extends Orchestra
     {
         return [
             BlogServiceProvider::class,
+            SanitizerServiceProvider::class
         ];
     }
 
     public function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
+        /*$app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
-        ]);
+        ]);*/
+
+        Schema::dropAllTables();
+
+        include_once __DIR__.'/../database/migrations/create_blog_table.php.stub';
+        (new \CreateBlogTable())->up();
+
         $app['config']->set('sluggable', [
             'source'             => null,
             'method'             => null,
@@ -51,9 +60,6 @@ class TestCase extends Orchestra
             'maxLengthKeepWords' => true,
             'slugEngineOptions'  => [],
         ]);
-
-        include_once __DIR__.'/../database/migrations/create_blog_table.php.stub';
-        (new \CreateBlogTable())->up();
 
     }
 

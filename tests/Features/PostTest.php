@@ -52,17 +52,17 @@ class PostTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_create_a_post()
+    public function user_can_create_a_post()
     {
         $this->setStorage();
         $data =  $this->setData([
             'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
         ]);
-        $response = $this->from(route('admin::posts.create'))->post(route('admin::posts.store'), $data);
+        $response = $this->from(route('blog::posts.create'))->post(route('blog::posts.store'), $data);
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $posts = Post::all());
         $post = $posts->first();
-        $response->assertRedirect(route('admin::posts.edit', $post));
+        $response->assertRedirect(route('blog::posts.edit', $post));
         $this->assertEquals($data['author_id'], $post->author_id);
         $this->assertEquals($data['title'], $post->title);
         $this->assertEquals($data['language'], $post->language);
@@ -78,15 +78,15 @@ class PostTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_update_a_post()
+    public function user_can_update_a_post()
     {
         $this->setStorage();
         $post = Post::factory()->create();
         $data =  $this->setData([
             'post_image' => UploadedFile::fake()->image('image.jpg', 1000, 1000)
         ]);
-        $response = $this->from(route('admin::posts.edit', $post))->put(route('admin::posts.update', $post), $data);
-        $response->assertRedirect(route('admin::posts.edit', $post));
+        $response = $this->from(route('blog::posts.edit', $post))->put(route('blog::posts.update', $post), $data);
+        $response->assertRedirect(route('blog::posts.edit', $post));
         $response->assertSessionHasNoErrors();
         $post->refresh();
         $this->assertEquals($data['author_id'], $post->author_id);
@@ -105,22 +105,22 @@ class PostTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_delete_a_post()
+    public function user_can_delete_a_post()
     {
         $post = Post::factory()->create();
-        $response = $this->from(route('admin::posts.index'))->delete(route('admin::posts.destroy', $post));
-        $response->assertRedirect(route('admin::posts.index'));
+        $response = $this->from(route('blog::posts.index'))->delete(route('blog::posts.destroy', $post));
+        $response->assertRedirect(route('blog::posts.index'));
         $this->assertCount(0, Post::all());
     }
 
     /** @test */
-    public function admin_can_restore_a_post()
+    public function user_can_restore_a_post()
     {
         $post = Post::factory()->create();
         $post->delete();
         $this->assertCount(0, Post::all());
-        $response = $this->from(route('admin::posts.index'))->post(route('admin::posts.restore', $post->id));
-        $response->assertRedirect(route('admin::posts.index'));
+        $response = $this->from(route('blog::posts.index'))->post(route('blog::posts.restore', $post->id));
+        $response->assertRedirect(route('blog::posts.index'));
         $this->assertCount(1, Post::all());
     }
 
@@ -128,13 +128,13 @@ class PostTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_create_post_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_create_post_with_invalid_data($formInput, $formInputValue)
     {
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $response = $this->from(route('admin::posts.create'))->post(route('admin::posts.store'), $data);
-        $response->assertRedirect(route('admin::posts.create'));
+        $response = $response = $this->from(route('blog::posts.create'))->post(route('blog::posts.store'), $data);
+        $response->assertRedirect(route('blog::posts.create'));
         $response->assertSessionHasErrors($formInput);
         $this->assertCount(0, Post::all());
     }
@@ -143,14 +143,14 @@ class PostTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_update_post_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_update_post_with_invalid_data($formInput, $formInputValue)
     {
         $post = Post::factory()->create();
         $data =  $this->setData([
             $formInput => $formInputValue
         ]);
-        $response = $this->from(route('admin::posts.edit', $post))->put(route('admin::posts.update', $post), $data);
-        $response->assertRedirect(route('admin::posts.edit', $post));
+        $response = $this->from(route('blog::posts.edit', $post))->put(route('blog::posts.update', $post), $data);
+        $response->assertRedirect(route('blog::posts.edit', $post));
         $response->assertSessionHasErrors($formInput);
     }
 
