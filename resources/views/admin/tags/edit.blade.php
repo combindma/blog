@@ -8,7 +8,7 @@
                     <div class="mb-4">
                         <h1 class="text-lg leading-6 font-medium text-gray-900">Modifier nom tag</h1>
                     </div>
-                    @include('admin.components.alert')
+                    @include('dashui::admin.components.alert')
                     @csrf
                     @method('PUT')
                     <div class="mb-4">

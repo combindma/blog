@@ -55,7 +55,7 @@
                                         <form id="form-action" action="{{ route('blog::authors.store') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <div class="space-y-6 divide-y divide-gray-200">
-                                                @include('admin.posts.authors.form', ['createForm' => true, 'author' => new \App\Models\Author()])
+                                                @include('blog::admin.posts.authors.form', ['createForm' => true, 'author' => new \Combindma\Blog\Models\Author()])
                                             </div>
                                         </form>
                                     </div>
@@ -75,10 +75,10 @@
             </div>
         </div>
 
-        @include('admin.components.alert')
+        @include('dashui::admin.components.alert')
 
         @if ($authors->isEmpty())
-            @component('admin.components.blank-state')
+            @component('dashui::admin.components.blank-state')
                 @slot('icon')
                     <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">

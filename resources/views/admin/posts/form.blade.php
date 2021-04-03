@@ -63,7 +63,7 @@
                 <div class="mb-6">
                     <label class="form-label" for="language">Langue</label>
                     <select class="form-control" name="language" id="language" required>
-                        @foreach(\App\Enums\Languages::asSelectArray() as $language=>$description)
+                        @foreach(\Combindma\Blog\Enums\Languages::asSelectArray() as $language=>$description)
                             <option value="{{ $language }}" @if($language === old('language', optional($post->language)->value)) selected @endif>{{ $description }}</option>
                         @endforeach
                     </select>

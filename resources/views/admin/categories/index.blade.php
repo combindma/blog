@@ -97,9 +97,9 @@
                 </div>
             </div>
         </div>
-        @include('admin.components.alert')
+        @include('dashui::admin.components.alert')
         @if ($categories->isEmpty())
-            @component('admin.components.blank-state')
+            @component('dashui::admin.components.blank-state')
                 @slot('icon')
                     <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">

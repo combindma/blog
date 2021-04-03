@@ -32,10 +32,10 @@
                     </button>
                 </div>
             </div>
-            @include('admin.components.alert')
+            @include('dashui::admin.components.alert')
             @csrf
             @method('PUT')
-            @include('admin.posts.form', ['createForm' => false])
+            @include('blog::admin.posts.form', ['createForm' => false])
         </form>
     </div>
 @endsection

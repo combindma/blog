@@ -15,10 +15,10 @@
                     </a>
                 </div>
             </div>
-            @include('admin.components.alert')
+            @include('dashui::admin.components.alert')
         </div>
 
-        @include('admin.posts.filter')
+        @include('blog::admin.posts.filter')
 
         <div class="shadow">
             @if ($posts->isEmpty())
@@ -114,7 +114,7 @@
                                             {{ $post->published_at->ago() }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            @include('admin.posts.menu-action', ['post' => $post])
+                                            @include('blog::admin.posts.menu-action', ['post' => $post])
                                         </td>
                                     </tr>
                                 @endforeach
