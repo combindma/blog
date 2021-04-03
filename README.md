@@ -32,6 +32,12 @@ You can publish translations with:
 php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-translations"
 ```
 
+You can publish assets with:
+
+```bash
+php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-assets"
+```
+
 ## Usage
 
 

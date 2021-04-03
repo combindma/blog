@@ -18,6 +18,7 @@ class BlogServiceProvider extends PackageServiceProvider
             ->name('blog')
             ->hasViews()
             ->hasTranslations()
+            ->hasAssets()
             ->hasMigration('create_blog_table');
     }
 }

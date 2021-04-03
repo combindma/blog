@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix --mix-config=webpack.mix.js",
+        "watch": "mix watch --mix-config=webpack.mix.js",
+        "prod": "npm run production",
+        "production": "mix --production --mix-config=webpack.mix.js"
+    },
+    "devDependencies": {
+        "ckeditor5-build-laravel-image": "^1.0.1",
+        "laravel-mix": "^6.0.11",
+        "lodash": "^4.17.20"
+    }
+}

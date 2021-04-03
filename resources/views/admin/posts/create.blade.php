@@ -39,7 +39,7 @@
     </div>
 @endsection
 @push('js')
-    <script type="text/javascript" src="{{ mix('/assets/js/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/vendor/blog/ckeditor.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
         ClassicEditor.create(document.querySelector('#editor'), {
