@@ -13,6 +13,6 @@ class Slug implements Rule
 
     public function message()
     {
-        return 'Le champs :attribute ne doit pas comporter d\'espace ou des caratères spéciaux.';
+        return __('blog::messages.invalid-slug');
     }
 }

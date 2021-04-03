@@ -17,7 +17,7 @@ class TagController extends Controller
     public function store(TagRequest $request)
     {
         Tag::create($request->validated());
-        flash(__('Ajout effectué avec succès'));
+        flash(__('blog::messages.created'));
         return redirect(route('blog::tags.index'));
     }
 
@@ -29,21 +29,21 @@ class TagController extends Controller
     public function update(TagRequest $request, Tag $tag)
     {
         $tag->update($request->validated());
-        flash(__('Enregistrement effectué avec succès'));
+        flash(__('blog::messages.updated'));
         return back();
     }
 
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        flash(__('Ettiquette supprimée avec succès'));
+        flash(__('blog::messages.deleted'));
         return back();
     }
 
     public function restore($id)
     {
         Tag::withTrashed()->where('id',$id)->restore();
-        flash(__('Etiquette restaurée avec succès'));
+        flash(__('blog::messages.restored'));
         return back();
     }
 }

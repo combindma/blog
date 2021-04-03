@@ -54,7 +54,7 @@ class PostController extends Controller
             $post->addImage($request->file('post_image'));
         }
 
-        flash(__('Ajout effectué avec succès'));
+        flash(__('blog::messages.created'));
         return redirect(route('blog::posts.edit', $post));
     }
 
@@ -80,21 +80,21 @@ class PostController extends Controller
             $post->addImage($request->file('post_image'));
         }
 
-        flash(__('Enregistrement effectué avec succès'));
+        flash(__('blog::messages.updated'));
         return back();
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        flash(__('Article supprimé avec succès'));
+        flash(__('blog::messages.deleted'));
         return back();
     }
 
     public function restore($id)
     {
         Post::withTrashed()->where('id',$id)->restore();
-        flash(__('Article restauré avec succès'));
+        flash(__('blog::messages.restored'));
         return back();
     }
 

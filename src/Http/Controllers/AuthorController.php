@@ -24,7 +24,7 @@ class AuthorController extends Controller
             $author->addImage($request->file('avatar'));
         }
 
-        flash(__('Ajout effectué avec succès'));
+        flash(__('blog::messages.created'));
         return redirect(route('blog::authors.index'));
     }
 
@@ -44,21 +44,21 @@ class AuthorController extends Controller
             $author->addImage($request->file('avatar'));
         }
 
-        flash(__('Enregistrement effectué avec succès'));
+        flash(__('blog::messages.updated'));
         return back();
     }
 
     public function destroy(Author $author)
     {
         $author->delete();
-        flash(__('Auteur supprimé avec succès'));
+        flash(__('blog::messages.deleted'));
         return back();
     }
 
     public function restore($id)
     {
         Author::withTrashed()->where('id',$id)->restore();
-        flash(__('Auteur restauré avec succès'));
+        flash(__('blog::messages.restored'));
         return back();
     }
 }
