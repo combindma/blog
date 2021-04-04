@@ -1,4 +1,4 @@
-@extends('dashui::admin.layouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Modifier Auteur')
 @section('content')
     <div class="bg-white border-l border-gray-200">
@@ -17,10 +17,10 @@
                             </button>
                         </div>
                     </div>
-                    @include('dashui::admin.components.alert')
+                    @include('dashui::components.alert')
                 </div>
                 <form class="max-w-3xl mx-auto space-y-6 divide-y divide-gray-200" id="form-action" action="{{ route('blog::authors.update', $author) }}" method="POST" enctype="multipart/form-data">
-                    @include('blog::admin.authors.form', ['createForm' => false])
+                    @include('blog::authors.form', ['createForm' => false])
                     @csrf
                     @method('PUT')
                     <div class="pt-5 flex justify-end">

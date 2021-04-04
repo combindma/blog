@@ -117,7 +117,7 @@ class Post extends Model implements HasMedia
 
     public function getDatePublicationAttribute()
     {
-        return Carbon::parse($this->published_at)->ago();
+        return $this->published_at->ago();
     }
 
     public function getCategoriesNames()

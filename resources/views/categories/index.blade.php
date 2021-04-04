@@ -1,4 +1,4 @@
-@extends('dashui::admin.layouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Catégories')
 @section('content')
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -97,9 +97,9 @@
                 </div>
             </div>
         </div>
-        @include('dashui::admin.components.alert')
+        @include('dashui::components.alert')
         @if ($categories->isEmpty())
-            @component('dashui::admin.components.blank-state')
+            @component('dashui::components.blank-state')
                 @slot('icon')
                     <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">

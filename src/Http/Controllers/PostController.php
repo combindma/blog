@@ -22,7 +22,7 @@ class PostController extends Controller
             ->with(['media', 'author', 'categories'])
             ->latest('id')
             ->paginate(10);
-        return view('blog::admin.posts.index', compact('posts'));
+        return view('blog::posts.index', compact('posts'));
     }
 
     public function create()
@@ -33,7 +33,7 @@ class PostController extends Controller
         $tags = Tag::get(['id', 'name']);
         $post_tags= array();
         $post_categories = array();
-        return view('blog::admin.posts.create', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
+        return view('blog::posts.create', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
     public function store(PostRequest $request)
@@ -65,7 +65,7 @@ class PostController extends Controller
         $tags = Tag::get(['id', 'name']);
         $post_tags= $post->tagsIds();
         $post_categories = $post->categoriesIds();
-        return view('blog::admin.posts.edit', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
+        return view('blog::posts.edit', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
     public function update(PostRequest $request, Post $post)

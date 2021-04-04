@@ -11,7 +11,7 @@ class TagController extends Controller
     public function index()
     {
         $tags = Tag::withTrashed()->oldest('order_column')->get();
-        return view('blog::admin.tags.index', compact('tags'));
+        return view('blog::tags.index', compact('tags'));
     }
 
     public function store(TagRequest $request)
@@ -23,7 +23,7 @@ class TagController extends Controller
 
     public function edit(Tag $tag)
     {
-        return view('blog::admin.tags.edit', compact('tag'));
+        return view('blog::tags.edit', compact('tag'));
     }
 
     public function update(TagRequest $request, Tag $tag)

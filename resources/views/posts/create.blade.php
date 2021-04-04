@@ -1,4 +1,4 @@
-@extends('dashui::admin.layouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Ajouter un article')
 @push('head')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -32,9 +32,9 @@
                     </button>
                 </div>
             </div>
-            @include('dashui::admin.components.alert')
+            @include('dashui::components.alert')
             @csrf
-            @include('blog::admin.posts.form', ['createForm' => true])
+            @include('blog::posts.form', ['createForm' => true])
         </form>
     </div>
 @endsection

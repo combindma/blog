@@ -11,7 +11,7 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::withTrashed()->with(['media'])->get();
-        return view('blog::admin.authors.index', compact('authors'));
+        return view('blog::authors.index', compact('authors'));
     }
 
     public function store(AuthorRequest $request)
@@ -31,7 +31,7 @@ class AuthorController extends Controller
 
     public function edit(Author $author)
     {
-        return view('blog::admin.authors.edit', compact('author'));
+        return view('blog::authors.edit', compact('author'));
     }
 
     public function update(AuthorRequest $request, Author $author)

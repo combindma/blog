@@ -1,4 +1,4 @@
-@extends('dashui::admin.layouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Articles')
 @section('content')
     <div class="bg-white border-l border-gray-200">
@@ -15,10 +15,10 @@
                     </a>
                 </div>
             </div>
-            @include('dashui::admin.components.alert')
+            @include('dashui::components.alert')
         </div>
 
-        @include('blog::admin.posts.filter')
+        @include('blog::posts.filter')
 
         <div class="shadow">
             @if ($posts->isEmpty())
@@ -114,7 +114,7 @@
                                             {{ $post->published_at->ago() }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            @include('blog::admin.posts.menu-action', ['post' => $post])
+                                            @include('blog::posts.menu-action', ['post' => $post])
                                         </td>
                                     </tr>
                                 @endforeach
