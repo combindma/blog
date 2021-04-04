@@ -26,6 +26,24 @@ php artisan migrate
 php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-assets"
 ```
 
+(Important)You must add this to your filesystems config
+
+```php
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images'),
+            'url' => env('APP_URL').'/storage/images',
+            'visibility' => 'public',
+        ],
+
+        'uploads' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/uploads'),
+            'url' => env('APP_URL').'/storage/uploads',
+            'visibility' => 'public',
+        ],
+```
+
 You can publish views with:
 
 ```bash
