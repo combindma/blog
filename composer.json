@@ -2,7 +2,7 @@
     "name": "combindma/blog",
     "description": "Blog",
     "keywords": [
-        "combindma",
+        "combind",
         "laravel",
         "blog"
     ],
@@ -50,7 +50,7 @@
     "scripts": {
         "psalm": "vendor/bin/psalm",
         "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
-        "test-filter": "vendor/bin/phpunit --parallel --no-coverage --filter",
+        "test-filter": "vendor/bin/phpunit --no-coverage --filter",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
