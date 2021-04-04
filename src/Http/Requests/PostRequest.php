@@ -4,8 +4,8 @@ namespace Combindma\Blog\Http\Requests;
 
 use BenSampo\Enum\Rules\EnumValue;
 use Combindma\Blog\Enums\Languages;
-use Illuminate\Foundation\Http\FormRequest;
 use Elegant\Sanitizer\Laravel\SanitizesInput;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
 {
@@ -21,9 +21,10 @@ class PostRequest extends FormRequest
         if ($this->getMethod() === 'PUT') {
             return $this->updateRules();
         }
-        if ($this->getMethod() === 'PATCH'){
+        if ($this->getMethod() === 'PATCH') {
             return $this->updateRules();
         }
+
         return $this->createRules();
     }
 
@@ -54,7 +55,7 @@ class PostRequest extends FormRequest
             'is_featured' => 'present|boolean',
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
-            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024']
+            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
         ];
     }
 
@@ -75,7 +76,7 @@ class PostRequest extends FormRequest
             'is_featured' => 'present|boolean',
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
-            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024']
+            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
         ];
     }
 
@@ -100,8 +101,8 @@ class PostRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'is_published' => $this->is_published??0,
-            'is_featured' => $this->is_featured??0,
+            'is_published' => $this->is_published ?? 0,
+            'is_featured' => $this->is_featured ?? 0,
         ]);
     }
 }

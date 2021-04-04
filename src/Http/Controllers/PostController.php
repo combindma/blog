@@ -2,7 +2,6 @@
 
 namespace Combindma\Blog\Http\Controllers;
 
-
 use Combindma\Blog\Http\Requests\PostRequest;
 use Combindma\Blog\ModelFilters\PostFilter;
 use Combindma\Blog\Models\Author;
@@ -22,17 +21,19 @@ class PostController extends Controller
             ->with(['media', 'author', 'categories'])
             ->latest('id')
             ->paginate(10);
+
         return view('blog::posts.index', compact('posts'));
     }
 
     public function create()
     {
         $post = new Post();
-        $categories  = PostCategory::get(['id', 'name']);
-        $authors  = Author::get(['id', 'name']);
+        $categories = PostCategory::get(['id', 'name']);
+        $authors = Author::get(['id', 'name']);
         $tags = Tag::get(['id', 'name']);
-        $post_tags= array();
-        $post_categories = array();
+        $post_tags = [];
+        $post_categories = [];
+
         return view('blog::posts.create', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
@@ -40,31 +41,32 @@ class PostController extends Controller
     {
         $post = Post::create(array_merge($request->validated(), ['modified_at' => $request->published_at]));
 
-        if($request->filled('tags')){
+        if ($request->filled('tags')) {
             $post->tags()->attach($request->tags);
         }
 
-        if($request->filled('categories')){
+        if ($request->filled('categories')) {
             $post->categories()->attach($request->categories);
         }
 
-        if ($request->hasFile('post_image'))
-        {
+        if ($request->hasFile('post_image')) {
             // Add Media
             $post->addImage($request->file('post_image'));
         }
 
         flash(__('blog::messages.created'));
+
         return redirect(route('blog::posts.edit', $post));
     }
 
     public function edit(Post $post)
     {
-        $categories  = PostCategory::get(['id', 'name']);
-        $authors  = Author::get(['id', 'name']);
+        $categories = PostCategory::get(['id', 'name']);
+        $authors = Author::get(['id', 'name']);
         $tags = Tag::get(['id', 'name']);
-        $post_tags= $post->tagsIds();
+        $post_tags = $post->tagsIds();
         $post_categories = $post->categoriesIds();
+
         return view('blog::posts.edit', compact('post', 'categories', 'authors', 'tags', 'post_tags', 'post_categories'));
     }
 
@@ -74,13 +76,13 @@ class PostController extends Controller
         $post->tags()->sync($request->tags);
         $post->categories()->sync($request->categories);
 
-        if ($request->hasFile('post_image'))
-        {
+        if ($request->hasFile('post_image')) {
             // Update Media
             $post->addImage($request->file('post_image'));
         }
 
         flash(__('blog::messages.updated'));
+
         return back();
     }
 
@@ -88,45 +90,45 @@ class PostController extends Controller
     {
         $post->delete();
         flash(__('blog::messages.deleted'));
+
         return back();
     }
 
     public function restore($id)
     {
-        Post::withTrashed()->where('id',$id)->restore();
+        Post::withTrashed()->where('id', $id)->restore();
         flash(__('blog::messages.restored'));
+
         return back();
     }
 
     public function uploadOne(UploadedFile $uploadedFile, $filename = null, $disk = 'uploads', $folder = null)
     {
-        $name = !is_null($filename) ? $filename : Str::random(25).'.'.$uploadedFile->getClientOriginalExtension();
+        $name = ! is_null($filename) ? $filename : Str::random(25).'.'.$uploadedFile->getClientOriginalExtension();
         $file = $uploadedFile->storeAs($folder, $name, $disk);
+
         return Storage::disk($disk)->url($file);
     }
 
     public function upload(Request $request)
     {
-        if ($request->hasFile('upload'))
-        {
+        if ($request->hasFile('upload')) {
             // Upload image
             $image = $this->uploadOne($request->file('upload'));
             // Add Media
-            if (!empty($image))
-            {
+            if (! empty($image)) {
                 return response()->json([
-                    'uploaded'=> true,
-                    'url' => $image
+                    'uploaded' => true,
+                    'url' => $image,
                 ]);
             }
-
         }
 
         return response()->json([
-            'uploaded'=> false,
+            'uploaded' => false,
             'error' => [
-                'message' => __('impossible de télécharger cette image, veuillez réessayer')
-            ]
+                'message' => __('impossible de télécharger cette image, veuillez réessayer'),
+            ],
         ]);
     }
 }

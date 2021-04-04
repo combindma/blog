@@ -2,7 +2,6 @@
 
 namespace Combindma\Blog\Http\Controllers;
 
-
 use Combindma\Blog\Http\Requests\TagRequest;
 use Combindma\Blog\Models\Tag;
 
@@ -11,6 +10,7 @@ class TagController extends Controller
     public function index()
     {
         $tags = Tag::withTrashed()->oldest('order_column')->get();
+
         return view('blog::tags.index', compact('tags'));
     }
 
@@ -18,6 +18,7 @@ class TagController extends Controller
     {
         Tag::create($request->validated());
         flash(__('blog::messages.created'));
+
         return redirect(route('blog::tags.index'));
     }
 
@@ -30,6 +31,7 @@ class TagController extends Controller
     {
         $tag->update($request->validated());
         flash(__('blog::messages.updated'));
+
         return back();
     }
 
@@ -37,13 +39,15 @@ class TagController extends Controller
     {
         $tag->delete();
         flash(__('blog::messages.deleted'));
+
         return back();
     }
 
     public function restore($id)
     {
-        Tag::withTrashed()->where('id',$id)->restore();
+        Tag::withTrashed()->where('id', $id)->restore();
         flash(__('blog::messages.restored'));
+
         return back();
     }
 }

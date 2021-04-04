@@ -3,9 +3,9 @@
 namespace Combindma\Blog\Http\Requests;
 
 use Combindma\Blog\Rules\Slug;
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class TagRequest extends FormRequest
 {
@@ -21,9 +21,10 @@ class TagRequest extends FormRequest
         if ($this->getMethod() === 'PUT') {
             return $this->updateRules();
         }
-        if ($this->getMethod() === 'PATCH'){
+        if ($this->getMethod() === 'PATCH') {
             return $this->updateRules();
         }
+
         return $this->createRules();
     }
 
@@ -47,7 +48,7 @@ class TagRequest extends FormRequest
         return [
             'name' => 'required|string',
             'slug' => ['required', Rule::unique('tags')->ignore($this->tag), new Slug()],
-            'order_column' => 'nullable|numeric'
+            'order_column' => 'nullable|numeric',
         ];
     }
 }

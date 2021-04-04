@@ -6,7 +6,6 @@ use Combindma\Blog\Models\PostCategory;
 use Combindma\Blog\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
 class PostCategoryTest extends TestCase
 {
     use RefreshDatabase;
@@ -21,7 +20,7 @@ class PostCategoryTest extends TestCase
     /** @test */
     public function user_can_create_post_category()
     {
-        $data =  $this->setData();
+        $data = $this->setData();
         $response = $this->from(route('blog::post_categories.index'))->post(route('blog::post_categories.store'), $data);
         $response->assertRedirect(route('blog::post_categories.index'));
         $this->assertCount(1, $categories = PostCategory::all());
@@ -33,9 +32,9 @@ class PostCategoryTest extends TestCase
     public function user_can_update_post_category()
     {
         $post_category = PostCategory::factory()->create();
-        $data =  $this->setData([
+        $data = $this->setData([
             'slug' => strtolower($this->faker->slug),
-            'order_column' => $this->faker->numberBetween(1, 10)
+            'order_column' => $this->faker->numberBetween(1, 10),
         ]);
         $response = $this->from(route('blog::post_categories.edit', $post_category))->put(route('blog::post_categories.update', $post_category), $data);
         $response->assertRedirect(route('blog::post_categories.edit', $post_category));
@@ -71,8 +70,8 @@ class PostCategoryTest extends TestCase
      */
     public function user_cannot_create_post_category_with_invalid_data($formInput, $formInputValue)
     {
-        $data =  $this->setData([
-            $formInput => $formInputValue
+        $data = $this->setData([
+            $formInput => $formInputValue,
         ]);
         $response = $this->from(route('blog::post_categories.index'))->post(route('blog::post_categories.store'), $data);
         $response->assertRedirect(route('blog::post_categories.index'));

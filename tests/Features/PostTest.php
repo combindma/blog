@@ -20,6 +20,7 @@ class PostTest extends TestCase
         $author = Author::factory()->create();
         $tags = Arr::pluck(Tag::factory()->count(3)->create(), 'id');
         $categories = Arr::pluck(PostCategory::factory()->count(3)->create(), 'id');
+
         return array_merge([
             'categories' => $categories,
             'tags' => $tags,
@@ -41,7 +42,7 @@ class PostTest extends TestCase
     /** @test */
     public function user_can_create_a_post()
     {
-        $data =  $this->setData();
+        $data = $this->setData();
         $response = $this->from(route('blog::posts.create'))->post(route('blog::posts.store'), $data);
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $posts = Post::all());
@@ -64,7 +65,7 @@ class PostTest extends TestCase
     public function user_can_update_a_post()
     {
         $post = Post::factory()->create();
-        $data =  $this->setData();
+        $data = $this->setData();
         $response = $this->from(route('blog::posts.edit', $post))->put(route('blog::posts.update', $post), $data);
         $response->assertRedirect(route('blog::posts.edit', $post));
         $response->assertSessionHasNoErrors();
@@ -109,8 +110,8 @@ class PostTest extends TestCase
      */
     public function user_cannot_create_post_with_invalid_data($formInput, $formInputValue)
     {
-        $data =  $this->setData([
-            $formInput => $formInputValue
+        $data = $this->setData([
+            $formInput => $formInputValue,
         ]);
         $response = $response = $this->from(route('blog::posts.create'))->post(route('blog::posts.store'), $data);
         $response->assertRedirect(route('blog::posts.create'));
@@ -125,8 +126,8 @@ class PostTest extends TestCase
     public function user_cannot_update_post_with_invalid_data($formInput, $formInputValue)
     {
         $post = Post::factory()->create();
-        $data =  $this->setData([
-            $formInput => $formInputValue
+        $data = $this->setData([
+            $formInput => $formInputValue,
         ]);
         $response = $this->from(route('blog::posts.edit', $post))->put(route('blog::posts.update', $post), $data);
         $response->assertRedirect(route('blog::posts.edit', $post));

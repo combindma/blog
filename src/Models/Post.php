@@ -2,9 +2,7 @@
 
 namespace Combindma\Blog\Models;
 
-
 use BenSampo\Enum\Traits\CastsEnums;
-use Carbon\Carbon;
 use Combindma\Blog\Enums\Languages;
 use Combindma\Blog\Traits\HasImage;
 use Combindma\Blog\Traits\HasPostCategories;
@@ -22,7 +20,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, Sluggable, InteractsWithMedia, SoftDeletes, Filterable, HasPostCategories, HasTags, CastsEnums, HasImage;
+    use HasFactory;
+    use Sluggable;
+    use InteractsWithMedia;
+    use SoftDeletes;
+    use Filterable;
+    use HasPostCategories;
+    use HasTags;
+    use CastsEnums;
+    use HasImage;
 
     protected $fillable = [
         'post_category_id',
@@ -39,7 +45,7 @@ class Post extends Model implements HasMedia
         'is_featured',
         'meta_title',
         'meta_description',
-        'meta'];
+        'meta', ];
 
     protected $casts = [
         'meta' => 'array',
@@ -52,14 +58,14 @@ class Post extends Model implements HasMedia
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 
     public static function getAllPosts()
     {
-        return Cache::rememberForever('posts', function (){
+        return Cache::rememberForever('posts', function () {
             return self::published()
                 ->orderBy('published_at', 'desc')
                 ->with(['categories', 'media'])
@@ -124,7 +130,6 @@ class Post extends Model implements HasMedia
     {
         return implode(", ", $this->categories->pluck('name')->toArray());
     }
-
 
     public function registerMediaCollections(): void
     {

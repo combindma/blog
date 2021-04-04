@@ -13,7 +13,7 @@ class Blog
 {
     public static function routes(string $prefix = 'dash')
     {
-        Route::group(['prefix' => $prefix, 'as' => 'blog::'], function (){
+        Route::group(['prefix' => $prefix, 'as' => 'blog::'], function () {
             Route::resource('/posts/post_categories', PostCategoryController::class)->except(['show']);
             Route::post('/posts/post_categories/{id}/restore', [PostCategoryController::class, 'restore'])->name('post_categories.restore');
 

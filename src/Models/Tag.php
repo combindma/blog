@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-
 class Tag extends Model implements Sortable
 {
-    use HasFactory, SoftDeletes, HasFactory, Sluggable, SortableTrait;
+    use HasFactory;
+    use SoftDeletes;
+    use HasFactory;
+    use Sluggable;
+    use SortableTrait;
 
     protected $fillable = ['name', 'slug', 'order_column'];
 
@@ -20,8 +23,8 @@ class Tag extends Model implements Sortable
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 

@@ -2,10 +2,9 @@
 
 namespace Combindma\Blog\Traits;
 
-
 use Combindma\Blog\Models\Tag;
 
-Trait HasTags
+trait HasTags
 {
     public function tags()
     {

@@ -3,12 +3,12 @@
 
 namespace Combindma\Blog\Traits;
 
-
-Trait HasImage
+trait HasImage
 {
     public function addImage($file)
     {
         $this->addMedia($file)->toMediaCollection('images', 'images');
+
         return $this;
     }
 

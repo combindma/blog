@@ -11,7 +11,10 @@ use Spatie\EloquentSortable\SortableTrait;
 
 class PostCategory extends Model implements Sortable
 {
-    use SoftDeletes, HasFactory, Sluggable, SortableTrait;
+    use SoftDeletes;
+    use HasFactory;
+    use Sluggable;
+    use SortableTrait;
 
     protected $fillable = ['name', 'slug', 'order_column'];
 
@@ -19,8 +22,8 @@ class PostCategory extends Model implements Sortable
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 

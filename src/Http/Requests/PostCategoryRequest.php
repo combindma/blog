@@ -3,9 +3,9 @@
 namespace Combindma\Blog\Http\Requests;
 
 use Combindma\Blog\Rules\Slug;
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class PostCategoryRequest extends FormRequest
 {
@@ -21,9 +21,10 @@ class PostCategoryRequest extends FormRequest
         if ($this->getMethod() === 'PUT') {
             return $this->updateRules();
         }
-        if ($this->getMethod() === 'PATCH'){
+        if ($this->getMethod() === 'PATCH') {
             return $this->updateRules();
         }
+
         return $this->createRules();
     }
 
@@ -54,7 +55,7 @@ class PostCategoryRequest extends FormRequest
             'slug' => ['required', Rule::unique('post_categories')->ignore($this->post_category), new Slug()],
             'visible_in_menu' => 'nullable|boolean',
             'browsable' => 'nullable|boolean',
-            'order_column' => 'nullable|numeric'
+            'order_column' => 'nullable|numeric',
         ];
     }
 

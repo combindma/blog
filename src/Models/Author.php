@@ -16,20 +16,25 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Author extends Model implements HasMedia, Sortable
 {
-    use HasFactory, InteractsWithMedia, SoftDeletes, Sluggable, SortableTrait, HasImage;
+    use HasFactory;
+    use InteractsWithMedia;
+    use SoftDeletes;
+    use Sluggable;
+    use SortableTrait;
+    use HasImage;
 
     protected $fillable = ['name', 'slug', 'job', 'description', 'order_column', 'meta'];
 
     protected $casts = [
-        'meta' => 'array'
+        'meta' => 'array',
     ];
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -38,7 +43,7 @@ class Author extends Model implements HasMedia, Sortable
         $this->addMediaCollection('images')
             ->singleFile()
             ->acceptsFile(function (File $file) {
-                return ($file->mimeType === 'image/jpeg') OR ($file->mimeType === 'image/jpg') OR ($file->mimeType === 'image/png');
+                return ($file->mimeType === 'image/jpeg') or ($file->mimeType === 'image/jpg') or ($file->mimeType === 'image/png');
             });
     }
 

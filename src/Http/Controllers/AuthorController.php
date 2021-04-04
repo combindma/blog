@@ -2,7 +2,6 @@
 
 namespace Combindma\Blog\Http\Controllers;
 
-
 use Combindma\Blog\Http\Requests\AuthorRequest;
 use Combindma\Blog\Models\Author;
 
@@ -11,6 +10,7 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::withTrashed()->with(['media'])->get();
+
         return view('blog::authors.index', compact('authors'));
     }
 
@@ -18,16 +18,15 @@ class AuthorController extends Controller
     {
         $author = Author::create($request->validated());
 
-        if ($request->hasFile('avatar'))
-        {
+        if ($request->hasFile('avatar')) {
             // Add Media
             $author->addImage($request->file('avatar'));
         }
 
         flash(__('blog::messages.created'));
+
         return redirect(route('blog::authors.index'));
     }
-
 
     public function edit(Author $author)
     {
@@ -38,13 +37,13 @@ class AuthorController extends Controller
     {
         $author->update($request->validated());
 
-        if ($request->hasFile('avatar'))
-        {
+        if ($request->hasFile('avatar')) {
             // Update Media
             $author->addImage($request->file('avatar'));
         }
 
         flash(__('blog::messages.updated'));
+
         return back();
     }
 
@@ -52,13 +51,15 @@ class AuthorController extends Controller
     {
         $author->delete();
         flash(__('blog::messages.deleted'));
+
         return back();
     }
 
     public function restore($id)
     {
-        Author::withTrashed()->where('id',$id)->restore();
+        Author::withTrashed()->where('id', $id)->restore();
         flash(__('blog::messages.restored'));
+
         return back();
     }
 }

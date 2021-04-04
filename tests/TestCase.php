@@ -2,6 +2,7 @@
 
 namespace Combindma\Blog\Tests;
 
+use Combindma\Blog\BlogServiceProvider;
 use Combindma\Blog\Http\Controllers\AuthorController;
 use Combindma\Blog\Http\Controllers\PostCategoryController;
 use Combindma\Blog\Http\Controllers\PostController;
@@ -11,7 +12,6 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Combindma\Blog\BlogServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -31,7 +31,7 @@ class TestCase extends Orchestra
     {
         return [
             BlogServiceProvider::class,
-            SanitizerServiceProvider::class
+            SanitizerServiceProvider::class,
         ];
     }
 
@@ -50,25 +50,24 @@ class TestCase extends Orchestra
         (new \CreateBlogTable())->up();
 
         $app['config']->set('sluggable', [
-            'source'             => null,
-            'method'             => null,
-            'onUpdate'           => false,
-            'separator'          => '-',
-            'unique'             => true,
-            'uniqueSuffix'       => null,
-            'firstUniqueSuffix'  => 2,
-            'includeTrashed'     => false,
-            'reserved'           => null,
-            'maxLength'          => null,
+            'source' => null,
+            'method' => null,
+            'onUpdate' => false,
+            'separator' => '-',
+            'unique' => true,
+            'uniqueSuffix' => null,
+            'firstUniqueSuffix' => 2,
+            'includeTrashed' => false,
+            'reserved' => null,
+            'maxLength' => null,
             'maxLengthKeepWords' => true,
-            'slugEngineOptions'  => [],
+            'slugEngineOptions' => [],
         ]);
-
     }
 
     protected function defineRoutes($router)
     {
-        Route::group(['as' => 'blog::', 'middleware' => ['bindings']], function (){
+        Route::group(['as' => 'blog::', 'middleware' => ['bindings']], function () {
             Route::resource('/posts/post_categories', PostCategoryController::class)->except(['show']);
             Route::post('/posts/post_categories/{id}/restore', [PostCategoryController::class, 'restore'])->name('post_categories.restore');
 

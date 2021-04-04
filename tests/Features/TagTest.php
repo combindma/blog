@@ -34,7 +34,7 @@ class TagTest extends TestCase
         $tag = Tag::factory()->create();
         $data = $this->setData([
             'slug' => strtolower($this->faker->slug),
-            'order_column' => $this->faker->numberBetween(1, 10)
+            'order_column' => $this->faker->numberBetween(1, 10),
         ]);
         $response = $this->from(route('blog::tags.edit', $tag))->put(route('blog::tags.update', $tag), $data);
         $response->assertRedirect(route('blog::tags.edit', $tag));
@@ -71,7 +71,7 @@ class TagTest extends TestCase
     public function user_cannot_create_tag_with_invalid_data($formInput, $formInputValue)
     {
         $data = $this->setData([
-            $formInput => $formInputValue
+            $formInput => $formInputValue,
         ]);
         $response = $this->from(route('blog::tags.index'))->post(route('blog::tags.store'), $data);
         $response->assertRedirect(route('blog::tags.index'));

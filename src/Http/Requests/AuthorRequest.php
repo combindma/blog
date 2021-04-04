@@ -3,9 +3,9 @@
 namespace Combindma\Blog\Http\Requests;
 
 use Combindma\Blog\Rules\Slug;
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class AuthorRequest extends FormRequest
 {
@@ -21,9 +21,10 @@ class AuthorRequest extends FormRequest
         if ($this->getMethod() === 'PUT') {
             return $this->updateRules();
         }
-        if ($this->getMethod() === 'PATCH'){
+        if ($this->getMethod() === 'PATCH') {
             return $this->updateRules();
         }
+
         return $this->createRules();
     }
 
@@ -55,7 +56,7 @@ class AuthorRequest extends FormRequest
             'description' => 'nullable|string',
             'meta.*' => 'nullable|string',
             'avatar' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
-            'order_column' => 'nullable|numeric'
+            'order_column' => 'nullable|numeric',
         ];
     }
 }
