@@ -24,13 +24,12 @@ class PostCategory extends Model implements Sortable
         'visible_in_menu',
         'browsable',
         'order_column',
-        'meta'
+        'meta',
     ];
 
     protected $casts = [
-        'meta' => 'array'
+        'meta' => 'array',
     ];
-
 
     public function sluggable(): array
     {
@@ -48,10 +47,9 @@ class PostCategory extends Model implements Sortable
 
     public static function getCategoriesBrowsable()
     {
-        return Cache::remember('post_categories', 60*60*168, function () {
+        return Cache::remember('post_categories', 60 * 60 * 168, function () {
             return self::browsable()->orderBy('order_column')->get(['id', 'name', 'slug','order_column']);
         });
-
     }
 
     public function scopeVisibleInMenu($query)
@@ -63,5 +61,4 @@ class PostCategory extends Model implements Sortable
     {
         return $query->where('browsable', 1);
     }
-
 }
