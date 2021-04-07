@@ -31,7 +31,6 @@ class Post extends Model implements HasMedia
     use HasImage;
 
     protected $fillable = [
-        'post_category_id',
         'author_id',
         'title',
         'slug',
@@ -45,7 +44,8 @@ class Post extends Model implements HasMedia
         'is_featured',
         'meta_title',
         'meta_description',
-        'meta', ];
+        'meta'
+    ];
 
     protected $casts = [
         'meta' => 'array',
@@ -65,12 +65,14 @@ class Post extends Model implements HasMedia
 
     public static function getAllPosts()
     {
-        return Cache::rememberForever('posts', function () {
+        return Cache::rememberForever('posts', function (){
             return self::published()
                 ->orderBy('published_at', 'desc')
+                ->orderBy('id', 'desc')
                 ->with(['categories', 'media'])
-                ->simplePaginate(7, ['id', 'author_id', 'title', 'slug', 'description', 'reading_time', 'published_at', 'is_published']);
+                ->simplePaginate(10, ['id', 'author_id', 'title', 'slug', 'description', 'reading_time', 'published_at', 'is_published']);
         });
+
     }
 
     public static function getPost($slug)
@@ -87,9 +89,11 @@ class Post extends Model implements HasMedia
             return self::published()
                 ->featured()
                 ->orderBy('published_at', 'desc')
+                ->orderBy('id', 'desc')
                 ->with(['categories', 'media'])
                 ->get(['id', 'title', 'slug', 'description', 'reading_time', 'published_at', 'is_published']);
         });
+
     }
 
     public static function getPostsForSitemap()

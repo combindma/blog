@@ -14,6 +14,7 @@ class PostCategoryTest extends TestCase
     {
         return array_merge([
             'name' => strtolower($this->faker->name),
+            'description' => strtolower($this->faker->sentence(10)),
         ], $data);
     }
 
@@ -26,6 +27,7 @@ class PostCategoryTest extends TestCase
         $this->assertCount(1, $categories = PostCategory::all());
         $category = $categories->first();
         $this->assertEquals($data['name'], $category->name);
+        $this->assertEquals($data['description'], $category->description);
     }
 
     /** @test */
@@ -40,6 +42,7 @@ class PostCategoryTest extends TestCase
         $response->assertRedirect(route('blog::post_categories.edit', $post_category));
         $post_category->refresh();
         $this->assertEquals($data['name'], $post_category->name);
+        $this->assertEquals($data['description'], $post_category->description);
         $this->assertEquals($data['slug'], $post_category->slug);
         $this->assertEquals($data['order_column'], $post_category->order_column);
     }

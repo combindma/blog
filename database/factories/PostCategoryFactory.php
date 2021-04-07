@@ -11,6 +11,9 @@ class PostCategoryFactory extends Factory
 
     public function definition()
     {
-        return [ 'name' => $this->faker->words(2, true)];
+        return [
+            'name' => $this->faker->words(2, true),
+            'description' => $this->faker->sentence(10),
+        ];
     }
 }
