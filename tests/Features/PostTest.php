@@ -28,6 +28,7 @@ class PostTest extends TestCase
             'title' => strtolower($this->faker->sentence(10)),
             'language' => Languages::French,
             'content' => strtolower($this->faker->text),
+            'markdown' => strtolower($this->faker->text),
             'description' => strtolower($this->faker->sentence(20)),
             'reading_time' => '5 min',
             'published_at' => date('Y-m-d'),
@@ -52,6 +53,7 @@ class PostTest extends TestCase
         $this->assertEquals($data['title'], $post->title);
         $this->assertEquals($data['language'], $post->language);
         $this->assertEquals($data['content'], $post->content);
+        $this->assertEquals($data['markdown'], $post->markdown);
         $this->assertEquals($data['description'], $post->description);
         $this->assertEquals($data['reading_time'], $post->reading_time);
         $this->assertEquals($data['published_at'], $post->published_at->format('Y-m-d'));
@@ -74,6 +76,7 @@ class PostTest extends TestCase
         $this->assertEquals($data['title'], $post->title);
         $this->assertEquals($data['language'], $post->language);
         $this->assertEquals($data['content'], $post->content);
+        $this->assertEquals($data['markdown'], $post->markdown);
         $this->assertEquals($data['description'], $post->description);
         $this->assertEquals($data['reading_time'], $post->reading_time);
         $this->assertEquals($data['published_at'], $post->published_at->format('Y-m-d'));
@@ -139,7 +142,6 @@ class PostTest extends TestCase
         return[
             'title_is_required' => ['title', ''],
             'language_is_required' => ['language', ''],
-            'content_is_required' => ['content', ''],
             'description_is_required' => ['description', ''],
             'publish_date_is_required' => ['published_at', ''],
         ];

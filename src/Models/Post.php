@@ -37,6 +37,7 @@ class Post extends Model implements HasMedia
         'language',
         'content',
         'description',
+        'markdown',
         'reading_time',
         'published_at',
         'modified_at',

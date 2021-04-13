@@ -18,14 +18,7 @@ class PostRequest extends FormRequest
 
     public function rules()
     {
-        if ($this->getMethod() === 'PUT') {
-            return $this->updateRules();
-        }
-        if ($this->getMethod() === 'PATCH') {
-            return $this->updateRules();
-        }
-
-        return $this->createRules();
+        return $this->sharedRules();
     }
 
     public function filters()
@@ -39,7 +32,7 @@ class PostRequest extends FormRequest
         ];
     }
 
-    public function createRules()
+    public function sharedRules()
     {
         return [
             'categories.*' => 'nullable|numeric',
@@ -47,36 +40,17 @@ class PostRequest extends FormRequest
             'tags.*' => 'nullable|numeric',
             'title' => 'required|string',
             'language' => ['required', new EnumValue(Languages::class, false)],
-            'content' => 'required|string',
+            'content' => 'nullable|string',
+            'markdown' => 'nullable|string',
             'description' => 'required|string',
             'reading_time' => 'nullable|string',
             'published_at' => 'required|date_format:Y-m-d',
+            'modified_at' => 'nullable|date_format:Y-m-d',
             'is_published' => 'present|boolean',
             'is_featured' => 'present|boolean',
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
-            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
-        ];
-    }
-
-    public function updateRules()
-    {
-        return [
-            'categories.*' => 'nullable|numeric',
-            'author_id' => 'nullable|numeric',
-            'tags.*' => 'nullable|numeric',
-            'title' => 'required|string',
-            'language' => ['required', new EnumValue(Languages::class, false)],
-            'content' => 'required|string',
-            'description' => 'required|string',
-            'reading_time' => 'nullable|string',
-            'published_at' => 'required|date_format:Y-m-d',
-            'modified_at' => 'required|date_format:Y-m-d',
-            'is_published' => 'present|boolean',
-            'is_featured' => 'present|boolean',
-            'meta_title' => 'nullable|string',
-            'meta_description' => 'nullable|string',
-            'post_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
+            'image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'dimensions:max_width=2500,max_height=2500', 'max:1024'],
         ];
     }
 

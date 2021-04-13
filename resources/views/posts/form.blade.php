@@ -7,9 +7,13 @@
                     <label for="title" class="form-label">Titre</label>
                     <input type="text" id="title" name="title" placeholder="Ajoutez un titre de l'article" value="{{ old('title', ucfirst(optional($post)->title)) }}" class="form-control" required>
                 </div>
-                <div class="mb-1">
+                <div class="mb-6">
                     <label for="editor" class="form-label">Contenu</label>
                     <textarea name="content" id="editor">{!! old('content', optional($post)->content) !!}</textarea>
+                </div>
+                <div class="mb-1">
+                    <label for="markdown" class="form-label">Markdown</label>
+                    <textarea name="markdown" id="markdown" class="form-control" rows="10">{!! old('markdown', optional($post)->markdown) !!}</textarea>
                 </div>
             </div>
         </div>
