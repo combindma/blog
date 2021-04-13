@@ -49,9 +49,9 @@ class PostController extends Controller
             $post->categories()->attach($request->categories);
         }
 
-        if ($request->hasFile('post_image')) {
+        if ($request->hasFile('image')) {
             // Add Media
-            $post->addImage($request->file('post_image'));
+            $post->addImage($request->file('image'));
         }
 
         flash(__('blog::messages.created'));
@@ -76,9 +76,9 @@ class PostController extends Controller
         $post->tags()->sync($request->tags);
         $post->categories()->sync($request->categories);
 
-        if ($request->hasFile('post_image')) {
+        if ($request->hasFile('image')) {
             // Update Media
-            $post->addImage($request->file('post_image'));
+            $post->addImage($request->file('image'));
         }
 
         flash(__('blog::messages.updated'));

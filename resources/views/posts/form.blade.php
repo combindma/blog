@@ -104,7 +104,7 @@
                             {{ $post->featured_image() }}
                         @endif
                     </div>
-                    <input type="file" class="form-control" name="post_image" accept="image/*">
+                    <input type="file" class="form-control" name="image" accept="image/*">
                 </div>
             </div>
         </div>
