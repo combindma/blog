@@ -64,6 +64,11 @@ class Post extends Model implements HasMedia
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Combindma\Blog\Database\Factories\PostFactory::new();
+    }
+
     public static function getAllPosts()
     {
         return Cache::rememberForever('posts', function () {

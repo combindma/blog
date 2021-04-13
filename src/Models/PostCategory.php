@@ -40,6 +40,11 @@ class PostCategory extends Model implements Sortable
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Combindma\Blog\Database\Factories\PostCategoryFactory::new();
+    }
+
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'category_post_relationship');

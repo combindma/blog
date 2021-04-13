@@ -28,6 +28,11 @@ class Tag extends Model implements Sortable
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Combindma\Blog\Database\Factories\TagFactory::new();
+    }
+
     public function posts()
     {
         return $this->belongsToMany(Post::class);

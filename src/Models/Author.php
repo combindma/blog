@@ -38,6 +38,11 @@ class Author extends Model implements HasMedia, Sortable
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Combindma\Blog\Database\Factories\AuthorFactory::new();
+    }
+
     public function registerMediaCollections() : void
     {
         $this->addMediaCollection('images')
