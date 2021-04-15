@@ -56,8 +56,6 @@ You can publish translations with:
 php artisan vendor:publish --provider="Combindma\Blog\BlogServiceProvider" --tag="blog-translations"
 ```
 
-## Usage
-
 
 ## Testing
 
