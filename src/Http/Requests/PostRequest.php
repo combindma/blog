@@ -68,7 +68,7 @@ class PostRequest extends FormRequest
             'modified_at' => 'date modification',
             'meta_title' => 'meta titre',
             'meta_description' => 'meta description',
-            'post_image' => 'image mise en avant',
+            'image' => 'image mise en avant',
         ];
     }
 
