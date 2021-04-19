@@ -89,7 +89,7 @@
                                                 </div>
                                                 <div class="ml-4 max-w-xs overflow-hidden">
                                                     @if (!$post->deleted_at && $post->is_published)
-                                                        <a href="{{ route('posts.show', $post->slug) }}" class="block text-sm font-medium text-gray-900 truncate">
+                                                        <a href="{{ route('blog::posts.edit', $post) }}" class="block text-sm font-medium text-gray-900 truncate">
                                                             {{ ucfirst($post->title) }}
                                                         </a>
                                                     @else
