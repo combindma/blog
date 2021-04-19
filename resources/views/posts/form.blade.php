@@ -9,7 +9,7 @@
                 </div>
                 <div class="mb-6">
                     <label for="markdown" class="form-label">Contenu - Markdown</label>
-                    <textarea name="markdown" id="markdown" class="form-control" rows="10">{!! old('markdown', optional($post)->markdown) !!}</textarea>
+                    <textarea name="markdown" id="markdown" class="form-control" rows="30">{!! old('markdown', optional($post)->markdown) !!}</textarea>
                 </div>
                 <div x-data="{ isExpanded:false }">
                     <div class="mt-4" x-show="!isExpanded">

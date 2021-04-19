@@ -88,9 +88,15 @@
                                                     @endif
                                                 </div>
                                                 <div class="ml-4 max-w-xs overflow-hidden">
-                                                    <div class="text-sm font-medium text-gray-900 truncate">
-                                                        {{ ucfirst($post->title) }}
-                                                    </div>
+                                                    @if (!$post->deleted_at && $post->is_published)
+                                                        <a href="{{ route('posts.show', $post->slug) }}" class="block text-sm font-medium text-gray-900 truncate">
+                                                            {{ ucfirst($post->title) }}
+                                                        </a>
+                                                    @else
+                                                        <div class="text-sm font-medium text-gray-900 truncate">
+                                                            {{ ucfirst($post->title) }}
+                                                        </div>
+                                                    @endif
                                                     <div class="text-sm text-gray-500">
                                                         {{ empty($post->getCategoriesNames())?'Sans catégorie':$post->getCategoriesNames() }}
                                                     </div>
@@ -120,9 +126,11 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="bg-white border-t border-gray-200 px-4 py-4 sm:px-6">
-                                {{ $posts->appends(request()->except('page'))->links() }}
-                            </div>
+                            @if($posts->hasPages())
+                                <div class="bg-white border-t border-gray-200 px-4 py-4 sm:px-6">
+                                    {{ $posts->appends(request()->except('page'))->links() }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
