@@ -41,8 +41,25 @@
 @endsection
 @push('js')
     <script type="text/javascript" src="{{ asset('/vendor/blog/ckeditor.js') }}"></script>
+    <script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
+        const el = document.querySelector('#markdown');
+        const stackedit = new Stackedit();
+        function openEditor() {
+            // Open the iframe
+            stackedit.openFile({
+                name: 'Article', // with an optional filename
+                content: {
+                    text: el.value // and the Markdown content.
+                }
+            });
+
+            // Listen to StackEdit events and apply the changes to the textarea.
+            stackedit.on('fileChange', (file) => {
+                el.value = file.content.text;
+            });
+        }
         ClassicEditor.create(document.querySelector('#editor'), {
             simpleUpload: {
                 uploadUrl: {
