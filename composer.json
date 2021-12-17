@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "bensampo/laravel-enum": "^3.3",
+        "bensampo/laravel-enum": "^3.3|^4.0",
         "combindma/dashui": "^1.0",
         "combindma/flash": "^1.0",
         "cviebrock/eloquent-sluggable": "^8.0",
