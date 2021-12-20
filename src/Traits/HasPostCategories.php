@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Combindma\Blog\Traits;
 
 use Combindma\Blog\Models\PostCategory;

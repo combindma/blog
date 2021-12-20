@@ -1,91 +1,64 @@
 <?php
 
-namespace Combindma\Blog\Tests\Features;
 
+use Combindma\Blog\Http\Controllers\PostCategoryController;
 use Combindma\Blog\Models\PostCategory;
-use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Faker\faker;
+use function Pest\Laravel\from;
+use function PHPUnit\Framework\assertCount;
 
-class PostCategoryTest extends TestCase
+function setData($data = [])
 {
-    use RefreshDatabase;
-
-    protected function setData($data = [])
-    {
-        return array_merge([
-            'name' => strtolower($this->faker->name),
-            'description' => strtolower($this->faker->sentence(10)),
-        ], $data);
-    }
-
-    /** @test */
-    public function user_can_create_post_category()
-    {
-        $data = $this->setData();
-        $response = $this->from(route('blog::post_categories.index'))->post(route('blog::post_categories.store'), $data);
-        $response->assertRedirect(route('blog::post_categories.index'));
-        $this->assertCount(1, $categories = PostCategory::all());
-        $category = $categories->first();
-        $this->assertEquals($data['name'], $category->name);
-        $this->assertEquals($data['description'], $category->description);
-    }
-
-    /** @test */
-    public function user_can_update_post_category()
-    {
-        $post_category = PostCategory::factory()->create();
-        $data = $this->setData([
-            'slug' => strtolower($this->faker->slug),
-            'order_column' => $this->faker->numberBetween(1, 10),
-        ]);
-        $response = $this->from(route('blog::post_categories.edit', $post_category))->put(route('blog::post_categories.update', $post_category), $data);
-        $response->assertRedirect(route('blog::post_categories.edit', $post_category));
-        $post_category->refresh();
-        $this->assertEquals($data['name'], $post_category->name);
-        $this->assertEquals($data['description'], $post_category->description);
-        $this->assertEquals($data['slug'], $post_category->slug);
-        $this->assertEquals($data['order_column'], $post_category->order_column);
-    }
-
-    /** @test */
-    public function user_can_delete_post_category()
-    {
-        $category = PostCategory::factory()->create();
-        $response = $this->from(route('blog::post_categories.index'))->delete(route('blog::post_categories.destroy', $category));
-        $response->assertRedirect(route('blog::post_categories.index'));
-        $this->assertCount(0, $categories = PostCategory::all());
-    }
-
-    /** @test */
-    public function user_can_restore_a_post_category()
-    {
-        $category = PostCategory::factory()->create();
-        $category->delete();
-        $this->assertCount(0, PostCategory::all());
-        $response = $this->from(route('blog::post_categories.index'))->post(route('blog::post_categories.restore', $category->id));
-        $response->assertRedirect(route('blog::post_categories.index'));
-        $this->assertCount(1, PostCategory::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postCategoryFormValidationProvider
-     */
-    public function user_cannot_create_post_category_with_invalid_data($formInput, $formInputValue)
-    {
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $this->from(route('blog::post_categories.index'))->post(route('blog::post_categories.store'), $data);
-        $response->assertRedirect(route('blog::post_categories.index'));
-        $response->assertSessionHasErrors($formInput);
-        $this->assertCount(0, PostCategory::all());
-    }
-
-    public function postCategoryFormValidationProvider()
-    {
-        return[
-            'name_is_required' => ['name', ''],
-        ];
-    }
+    return array_merge([
+        'name' => strtolower(faker()->name),
+        'description' => strtolower(faker()->sentence(10)),
+    ], $data);
 }
+
+test('user can create a post catgeory', function () {
+    $data = setData();
+    from(action([PostCategoryController::class, 'index']))
+        ->post(action([PostCategoryController::class, 'store']), $data)
+        ->assertRedirect(action([PostCategoryController::class, 'index']))
+        ->assertSessionHasNoErrors();
+
+    assertCount(1, $categories = PostCategory::all());
+    $post_category = $categories->first();
+    expect($post_category->name)->toBe($data['name']);
+    expect($post_category->description)->toBe($data['description']);
+});
+
+test('user can update a post category', function () {
+    $post_category = PostCategory::factory()->create();
+    $data = setData([
+        'slug' => strtolower(faker()->slug),
+        'order_column' => faker()->numberBetween(1, 10),
+    ]);
+    from(action([PostCategoryController::class, 'edit'], ['post_category' => $post_category]))
+        ->put(action([PostCategoryController::class, 'update'], ['post_category' => $post_category]), $data)
+        ->assertRedirect(action([PostCategoryController::class, 'edit'], ['post_category' => $post_category]))
+        ->assertSessionHasNoErrors();
+    $post_category->refresh();
+    expect($post_category->name)->toBe($data['name']);
+    expect($post_category->description)->toBe($data['description']);
+    expect($post_category->slug)->toBe($data['slug']);
+    expect($post_category->order_column)->toBe($data['order_column']);
+});
+
+test('user can delete a post category', function () {
+    $post_category = PostCategory::factory()->create();
+    from(action([PostCategoryController::class, 'index']))
+        ->delete(action([PostCategoryController::class, 'destroy'], ['post_category' => $post_category]))
+        ->assertRedirect(action([PostCategoryController::class, 'index']));
+    assertCount(0, PostCategory::all());
+});
+
+test('user can restore a deleted post category', function () {
+    $post_category = PostCategory::factory()->create();
+    $post_category->delete();
+    assertCount(0, PostCategory::all());
+    from(action([PostCategoryController::class, 'index']))
+        ->post(action([PostCategoryController::class, 'restore'], ['id' => $post_category->id]))
+        ->assertRedirect(action([PostCategoryController::class, 'index']));
+    assertCount(1, PostCategory::all());
+});

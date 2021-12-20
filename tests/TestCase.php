@@ -8,19 +8,15 @@ use Combindma\Blog\Http\Controllers\PostCategoryController;
 use Combindma\Blog\Http\Controllers\PostController;
 use Combindma\Blog\Http\Controllers\TagController;
 use Elegant\Sanitizer\Laravel\SanitizerServiceProvider;
-use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected $faker;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->faker = Faker::create();
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Combindma\\Blog\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
@@ -37,14 +33,14 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        //Schema::dropAllTables(); //run MYSQL server by this command: brew services start mysql
+
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
         ]);
-
-        //Schema::dropAllTables();
 
         include_once __DIR__.'/../database/migrations/create_blog_table.php.stub';
         (new \CreateBlogTable())->up();
@@ -72,7 +68,7 @@ class TestCase extends Orchestra
             Route::post('/posts/post_categories/{id}/restore', [PostCategoryController::class, 'restore'])->name('post_categories.restore');
 
             Route::resource('/posts/tags', TagController::class)->except(['show']);
-            Route::post('/posts/tags/{tag}/restore', [TagController::class, 'restore'])->name('tags.restore');
+            Route::post('/posts/tags/{id}/restore', [TagController::class, 'restore'])->name('tags.restore');
 
             Route::resource('/posts/authors', AuthorController::class)->except(['show']);
             Route::post('/posts/authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');

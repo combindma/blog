@@ -1,125 +1,72 @@
 <?php
 
-namespace Combindma\Blog\Tests\Features;
-
+use Combindma\Blog\Http\Controllers\AuthorController;
 use Combindma\Blog\Models\Author;
-use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Faker\faker;
+use function Pest\Laravel\from;
+use function PHPUnit\Framework\assertCount;
 
-class AuthorTest extends TestCase
+function setData($data = [])
 {
-    use RefreshDatabase;
-
-    protected function setData($data = [])
-    {
-        return array_merge([
-            'name' => strtolower($this->faker->name),
-            'job' => strtolower($this->faker->name),
-            'description' => strtolower($this->faker->text),
-            'meta' => [
-                'facebook' => 'link',
-                'twitter' => 'link',
-                'instagram' => 'link',
-                'linkedin' => 'link',
-            ],
-        ], $data);
-    }
-
-    /** @test */
-    public function user_can_create_an_author()
-    {
-        $data = $this->setData();
-        $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.store'), $data);
-        $response->assertRedirect(route('blog::authors.index'));
-        $response->assertSessionHasNoErrors();
-        $this->assertCount(1, $authors = Author::all());
-        $author = $authors->first();
-        $this->assertEquals($data['name'], $author->name);
-        $this->assertEquals($data['job'], $author->job);
-        $this->assertEquals($data['description'], $author->description);
-        $this->assertEquals($data['meta']['facebook'], $author->meta['facebook']);
-        $this->assertEquals($data['meta']['twitter'], $author->meta['twitter']);
-        $this->assertEquals($data['meta']['instagram'], $author->meta['instagram']);
-        $this->assertEquals($data['meta']['linkedin'], $author->meta['linkedin']);
-    }
-
-    /** @test */
-    public function user_can_update_an_author()
-    {
-        $author = Author::factory()->create();
-        $data = $this->setData([
-            'slug' => strtolower($this->faker->slug),
-            'order_column' => $this->faker->numberBetween(1, 10),
-        ]);
-        $response = $this->from(route('blog::authors.edit', $author))->put(route('blog::authors.update', $author), $data);
-        $response->assertRedirect(route('blog::authors.edit', $author));
-        $response->assertSessionHasNoErrors();
-        $author->refresh();
-        $this->assertEquals($data['name'], $author->name);
-        $this->assertEquals($data['job'], $author->job);
-        $this->assertEquals($data['slug'], $author->slug);
-        $this->assertEquals($data['order_column'], $author->order_column);
-        $this->assertEquals($data['description'], $author->description);
-        $this->assertEquals($data['meta']['facebook'], $author->meta['facebook']);
-        $this->assertEquals($data['meta']['twitter'], $author->meta['twitter']);
-        $this->assertEquals($data['meta']['instagram'], $author->meta['instagram']);
-        $this->assertEquals($data['meta']['linkedin'], $author->meta['linkedin']);
-    }
-
-    /** @test */
-    public function user_can_delete_an_author()
-    {
-        $author = Author::factory()->create();
-        $response = $this->from(route('blog::authors.index'))->delete(route('blog::authors.destroy', $author));
-        $response->assertRedirect(route('blog::authors.index'));
-        $this->assertCount(0, Author::all());
-    }
-
-    /** @test */
-    public function user_can_restore_an_author()
-    {
-        $author = Author::factory()->create();
-        $author->delete();
-        $this->assertCount(0, Author::all());
-        $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.restore', $author->id));
-        $response->assertRedirect(route('blog::authors.index'));
-        $this->assertCount(1, Author::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postFormValidationProvider
-     */
-    public function user_cannot_create_an_author_with_invalid_data($formInput, $formInputValue)
-    {
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $response = $this->from(route('blog::authors.index'))->post(route('blog::authors.store'), $data);
-        $response->assertRedirect(route('blog::authors.index'));
-        $response->assertSessionHasErrors($formInput);
-        $this->assertCount(0, Author::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postFormValidationProvider
-     */
-    public function user_cannot_update_an_author_with_invalid_data($formInput, $formInputValue)
-    {
-        $author = Author::factory()->create();
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $this->from(route('blog::authors.edit', $author))->put(route('blog::authors.update', $author), $data);
-        $response->assertRedirect(route('blog::authors.edit', $author));
-        $response->assertSessionHasErrors($formInput);
-    }
-
-    public function postFormValidationProvider()
-    {
-        return[
-            'name_is_required' => ['name', ''],
-        ];
-    }
+    return array_merge([
+        'name' => strtolower(faker()->name),
+        'job' => strtolower(faker()->name),
+        'description' => strtolower(faker()->text),
+        'meta' => [
+            'facebook' => 'link',
+        ],
+    ], $data);
 }
+
+test('user can create an author', function () {
+    $data = setData();
+    from(action([AuthorController::class, 'index']))->post(action([AuthorController::class, 'store']), $data)
+        ->assertRedirect(action([AuthorController::class, 'index']))
+        ->assertSessionHasNoErrors();
+    assertCount(1, $authors = Author::all());
+    $author = $authors->first();
+    expect($author->name)->toBe($data['name']);
+    expect($author->description)->toBe($data['description']);
+    expect($author->job)->toBe($data['job']);
+    expect($author->meta['facebook'])->toBe($data['meta']['facebook']);
+});
+
+
+test('user can update an author', function () {
+    $author = Author::factory()->create();
+    $data = setData([
+        'slug' => strtolower(faker()->slug),
+        'order_column' => faker()->numberBetween(1, 10),
+        'meta' => [
+            'facebook' => 'new-link',
+        ],
+    ]);
+    from(action([AuthorController::class, 'edit'], ['author' => $author]))
+        ->put(action([AuthorController::class, 'update'], ['author' => $author]), $data)
+        ->assertRedirect(action([AuthorController::class, 'edit'], ['author' => $author]))
+        ->assertSessionHasNoErrors();
+    $author->refresh();
+    expect($author->name)->toBe($data['name']);
+    expect($author->description)->toBe($data['description']);
+    expect($author->job)->toBe($data['job']);
+    expect($author->slug)->toBe($data['slug']);
+    expect($author->order_column)->toBe($data['order_column']);
+    expect($author->meta['facebook'])->toBe($data['meta']['facebook']);
+});
+
+test('user can delete an author', function () {
+    $author = Author::factory()->create();
+    from(action([AuthorController::class, 'index']))
+        ->delete(action([AuthorController::class, 'destroy'], ['author' => $author]))
+        ->assertRedirect(action([AuthorController::class, 'index']));
+    assertCount(0, Author::all());
+});
+
+test('user can restore a deleted author', function () {
+    $author = Author::factory()->create();
+    $author->delete();
+    $this->assertCount(0, Author::all());
+    $response = $this->from(action([AuthorController::class, 'index']))->post(route('blog::authors.restore', $author->id));
+    $response->assertRedirect(action([AuthorController::class, 'index']));
+    $this->assertCount(1, Author::all());
+});

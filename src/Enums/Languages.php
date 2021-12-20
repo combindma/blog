@@ -11,9 +11,9 @@ use BenSampo\Enum\Enum;
  */
 final class Languages extends Enum
 {
-    const French = 'fr';
-    const English = 'en';
-    const Arabic = 'ar';
+    public const French = 'fr';
+    public const English = 'en';
+    public const Arabic = 'ar';
 
     public static function getDescription($value): string
     {

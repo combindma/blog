@@ -1,88 +1,55 @@
 <?php
 
-namespace Combindma\Blog\Tests\Features;
 
+use Combindma\Blog\Http\Controllers\TagController;
 use Combindma\Blog\Models\Tag;
-use Combindma\Blog\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Faker\faker;
+use function Pest\Laravel\from;
+use function PHPUnit\Framework\assertCount;
 
-class TagTest extends TestCase
+function setData($data = [])
 {
-    use RefreshDatabase;
-
-    protected function setData($data = [])
-    {
-        return array_merge([
-            'name' => strtolower($this->faker->name),
-        ], $data);
-    }
-
-    /** @test */
-    public function user_can_create_a_tag()
-    {
-        $data = $this->setData();
-        $response = $this->from(route('blog::tags.index'))->post(route('blog::tags.store'), $data);
-        $response->assertRedirect(route('blog::tags.index'));
-        $this->assertCount(1, $tags = Tag::all());
-        $tag = $tags->first();
-        $this->assertEquals($data['name'], $tag->name);
-    }
-
-    /** @test */
-    public function user_can_update_a_tag()
-    {
-        $tag = Tag::factory()->create();
-        $data = $this->setData([
-            'slug' => strtolower($this->faker->slug),
-            'order_column' => $this->faker->numberBetween(1, 10),
-        ]);
-        $response = $this->from(route('blog::tags.edit', $tag))->put(route('blog::tags.update', $tag), $data);
-        $response->assertRedirect(route('blog::tags.edit', $tag));
-        $tag->refresh();
-        $this->assertEquals($data['name'], $tag->name);
-        $this->assertEquals($data['slug'], $tag->slug);
-        $this->assertEquals($data['order_column'], $tag->order_column);
-    }
-
-    /** @test */
-    public function user_can_delete_a_tag()
-    {
-        $tag = Tag::factory()->create();
-        $response = $this->from(route('blog::tags.index'))->delete(route('blog::tags.destroy', $tag));
-        $response->assertRedirect(route('blog::tags.index'));
-        $this->assertCount(0, Tag::all());
-    }
-
-    /** @test */
-    public function user_can_restore_a_tag()
-    {
-        $tag = Tag::factory()->create();
-        $tag->delete();
-        $this->assertCount(0, Tag::all());
-        $response = $this->from(route('blog::tags.index'))->post(route('blog::tags.restore', $tag->id));
-        $response->assertRedirect(route('blog::tags.index'));
-        $this->assertCount(1, Tag::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postCategoryFormValidationProvider
-     */
-    public function user_cannot_create_tag_with_invalid_data($formInput, $formInputValue)
-    {
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $this->from(route('blog::tags.index'))->post(route('blog::tags.store'), $data);
-        $response->assertRedirect(route('blog::tags.index'));
-        $response->assertSessionHasErrors($formInput);
-        $this->assertCount(0, Tag::all());
-    }
-
-    public function postCategoryFormValidationProvider()
-    {
-        return [
-            'name_is_required' => ['name', ''],
-        ];
-    }
+    return array_merge([
+        'name' => strtolower(faker()->name),
+    ], $data);
 }
+
+test('user can create a tag post', function () {
+    $data = setData();
+    from(action([TagController::class, 'index']))
+        ->post(action([TagController::class, 'store']), $data)
+        ->assertRedirect(action([TagController::class, 'index']))
+        ->assertSessionHasNoErrors();
+    assertCount(1, $tags = Tag::all());
+    $tag = $tags->first();
+    expect($tag->name)->toBe($data['name']);
+});
+
+test('user can update a tag post', function () {
+    $tag = Tag::factory()->create();
+    $data = setData([
+        'slug' => strtolower(faker()->slug),
+        'order_column' => faker()->numberBetween(1, 10),
+    ]);
+    from(action([TagController::class, 'edit'], ['tag' => $tag]))
+        ->put(action([TagController::class, 'update'], ['tag' => $tag]), $data)
+        ->assertRedirect(action([TagController::class, 'edit'], ['tag' => $tag]));
+    $tag->refresh();
+    expect($tag->name)->toBe($data['name']);
+    expect($tag->slug)->toBe($data['slug']);
+    expect($tag->order_column)->toBe($data['order_column']);
+});
+
+test('user can delete a tag post', function () {
+    $tag = Tag::factory()->create();
+    from(action([TagController::class, 'index']))->delete(action([TagController::class, 'destroy'], ['tag' => $tag]))->assertRedirect(action([TagController::class, 'index']));
+    assertCount(0, Tag::all());
+});
+
+test('user can restore a deleted tag post', function () {
+    $tag = Tag::factory()->create();
+    $tag->delete();
+    assertCount(0, Tag::all());
+    from(action([TagController::class, 'index']))->post(action([TagController::class, 'restore'], ['id' => $tag->id]))->assertRedirect(action([TagController::class, 'index']));
+    assertCount(1, Tag::all());
+});

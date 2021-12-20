@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Combindma\Blog\Traits;
 
 trait HasImage

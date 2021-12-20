@@ -43,7 +43,7 @@ class Author extends Model implements HasMedia, Sortable
         return \Combindma\Blog\Database\Factories\AuthorFactory::new();
     }
 
-    public function registerMediaCollections() : void
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
             ->singleFile()
@@ -52,7 +52,7 @@ class Author extends Model implements HasMedia, Sortable
             });
     }
 
-    public function registerMediaConversions(Media $media = null) : void
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->width(150)
