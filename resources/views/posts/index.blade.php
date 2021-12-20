@@ -78,7 +78,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
+                                                <div class="shrink-0 h-10 w-10">
                                                     @if (empty($post->thumb_url()))
                                                         <span class="inline-flex items-center justify-center h-10 w-10 bg-gray-500">
                                                             <span class="font-medium leading-none text-white">{{ strtoupper(substr($post->title, 0,2)) }}</span>
